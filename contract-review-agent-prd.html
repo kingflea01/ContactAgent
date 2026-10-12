@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>合同审核智能体 产品需求文档（PRD）</title>
+<title>合同审核对话智能体 产品需求文档（PRD）</title>
 <style>
   :root{
     --ink:#1a2233; --ink-2:#42506a; --ink-3:#7a869c;
@@ -25,7 +25,6 @@
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
     font-size:15px; line-height:1.75; -webkit-font-smoothing:antialiased;
   }
-  /* ---------- Sidebar ---------- */
   nav.toc{
     position:fixed; top:0; left:0; bottom:0; width:var(--sidebar-w);
     background:#0f1a30; color:#c6d0e2; padding:26px 0 40px; overflow-y:auto;
@@ -40,7 +39,6 @@
   nav.toc a:hover{background:#172541;color:#fff;}
   nav.toc a.active{background:#172541;color:#fff;border-left-color:var(--brand);}
   nav.toc a.lvl2{padding-left:40px;font-size:12.5px;color:#8294b5;}
-  /* ---------- Layout ---------- */
   main{margin-left:var(--sidebar-w); padding:40px 48px 100px;}
   .wrap{max-width:920px;margin:0 auto;}
   header.doc-head{
@@ -72,13 +70,10 @@
     padding:1px 6px;font-size:13px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
     color:#b02a4e;
   }
-  /* ---------- Tables ---------- */
   table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.8px;}
   th,td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top;}
   th{background:#f7f9fc;font-weight:650;color:var(--ink-2);white-space:nowrap;}
   tr:nth-child(even) td{background:#fbfcfe;}
-  td .id{font-family:ui-monospace,Menla,Consolas,monospace;font-size:12.5px;color:var(--brand-dark);font-weight:600;}
-  /* ---------- Chips / badges ---------- */
   .chip{display:inline-block;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap;}
   .chip.high{background:var(--red-soft);color:var(--red);}
   .chip.mid{background:var(--amber-soft);color:var(--amber);}
@@ -89,23 +84,18 @@
   .chip.conf-h{background:var(--green-soft);color:var(--green);}
   .chip.conf-m{background:var(--amber-soft);color:var(--amber);}
   .chip.conf-l{background:var(--grey-soft);color:var(--grey);}
-  .chip.state{background:#eef3ff;color:#2b4ec4;border:1px solid #d4e0ff;}
-  /* ---------- Callouts ---------- */
   .callout{border-radius:10px;padding:14px 18px;margin:16px 0;font-size:14px;border:1px solid;}
   .callout .ct{font-weight:700;display:block;margin-bottom:4px;}
   .callout.key{background:var(--brand-soft);border-color:#cddcff;}
   .callout.key .ct{color:var(--brand-dark);}
   .callout.warn{background:#fff8ec;border-color:#f0d9a8;}
   .callout.warn .ct{color:#9a5e0a;}
-  .callout.tbd{background:var(--grey-soft);border-color:#d9dee7;border-left:4px solid var(--grey);}
-  .callout.tbd .ct{color:var(--grey);}
   .callout.danger{background:var(--red-soft);border-color:#f3c9c4;}
   .callout.danger .ct{color:var(--red);}
-  /* ---------- Flow diagrams ---------- */
   .flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:0;margin:18px 0;}
   .flow .step{
     flex:1;min-width:130px;background:#fff;border:1.5px solid #c9d6f5;border-radius:10px;
-    padding:12px 14px;position:relative;font-size:13px;
+    padding:12px 14px;font-size:13px;
   }
   .flow .step .n{
     display:inline-block;width:20px;height:20px;border-radius:50%;background:var(--brand);
@@ -114,11 +104,8 @@
   .flow .step b{display:block;font-size:13.5px;margin-bottom:2px;}
   .flow .step span{color:var(--ink-3);font-size:12.3px;line-height:1.55;}
   .flow .arrow{display:flex;align-items:center;padding:0 7px;color:var(--brand);font-size:18px;font-weight:700;}
-  .flow.loop .arrow.loop-back{transform:rotate(180deg);}
-  .flow-wrap{position:relative;}
   .loop-label{text-align:center;font-size:12.5px;color:var(--brand-dark);background:var(--brand-soft);
     border:1px dashed #b6c9f7;border-radius:8px;padding:7px 12px;margin-top:10px;}
-  /* ---------- Layer model ---------- */
   .layers{display:flex;flex-direction:column;gap:10px;margin:16px 0;}
   .layer{border-radius:11px;padding:15px 20px;border:1px solid;}
   .layer .lh{font-weight:700;font-size:14.5px;margin-bottom:3px;display:flex;align-items:center;gap:9px;}
@@ -131,7 +118,6 @@
   .layer.l3{background:#faf7ff;border-color:#ddd1f7;}
   .layer.l3 .tag{background:var(--purple-soft);color:var(--purple);}
   .layer-arrow{text-align:center;color:var(--ink-3);font-size:16px;line-height:1;margin:-3px 0;}
-  /* ---------- State machine ---------- */
   .states{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0;font-size:13px;}
   .state-box{border:1.5px solid #b9c8ec;background:#f5f8ff;border-radius:9px;padding:8px 14px;font-weight:600;color:#2b4ec4;white-space:nowrap;}
   .state-box.start{background:#2456f6;color:#fff;border-color:#2456f6;}
@@ -139,44 +125,76 @@
   .state-box.end-stop{background:var(--red-soft);border-color:#efc3be;color:var(--red);}
   .states .arr{color:var(--ink-3);font-weight:700;}
   .states .arr small{display:block;font-weight:400;color:var(--ink-3);font-size:11px;line-height:1.3;}
-  /* ---------- Mock cards ---------- */
-  .mock{border:1.5px solid var(--line);border-radius:12px;overflow:hidden;margin:18px 0;box-shadow:0 2px 10px rgba(20,40,80,.05);}
-  .mock .mock-bar{background:#0f1a30;color:#fff;padding:9px 18px;font-size:12.5px;display:flex;justify-content:space-between;}
-  .mock .mock-body{padding:20px 22px;background:#fff;}
-  .finding{border:1px solid var(--line);border-left:4px solid var(--red);border-radius:8px;padding:13px 16px;margin:12px 0;background:#fff;}
-  .finding.mid{border-left-color:var(--amber);}
-  .finding.low{border-left-color:var(--blue);}
-  .finding .f-head{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:6px;}
-  .finding .f-head .loc{font-size:12.5px;color:var(--ink-3);}
-  .finding .quote{background:#f7f8fa;border-left:3px solid #cdd5e0;padding:7px 12px;font-size:13px;color:var(--ink-2);margin:7px 0;border-radius:0 6px 6px 0;}
-  .finding .basis{font-size:12.8px;color:var(--brand-dark);background:var(--brand-soft);border-radius:6px;padding:8px 12px;margin:7px 0;}
-  .finding .fix{font-size:13.3px;margin:7px 0;}
-  .finding .fix b{color:var(--green);}
-  .finding .actions{display:flex;gap:8px;margin-top:9px;flex-wrap:wrap;}
-  .btn{border:1px solid var(--line);background:#fff;border-radius:7px;padding:4px 13px;font-size:12.5px;color:var(--ink-2);}
-  .btn.primary{background:var(--brand);color:#fff;border-color:var(--brand);}
-  .btn.danger{color:var(--red);border-color:#f0c6c1;}
-  .kcard{border:1px solid var(--line);border-radius:11px;padding:0;margin:14px 0;overflow:hidden;}
-  .kcard .kc-head{background:linear-gradient(90deg,#eef3ff,#fff);padding:12px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;}
-  .kcard .kc-head b{font-size:14.5px;}
-  .kcard table{margin:0;border:none;}
-  .kcard th{width:120px;background:#fafbfd;}
-  .kcard tr:nth-child(even) td{background:#fff;}
-  .score{display:flex;gap:14px;flex-wrap:wrap;margin:12px 0;}
-  .score .stat{flex:1;min-width:120px;border:1px solid var(--line);border-radius:10px;padding:12px 15px;text-align:center;background:#fbfcfe;}
-  .score .stat .v{font-size:24px;font-weight:700;line-height:1.2;}
-  .score .stat .k{font-size:12px;color:var(--ink-3);}
-  .v.r{color:var(--red);} .v.a{color:var(--amber);} .v.b{color:var(--blue);} .v.g{color:var(--green);}
-  .verdict{border-radius:11px;padding:15px 20px;margin:14px 0;font-weight:600;display:flex;align-items:center;gap:12px;}
-  .verdict.warn{background:var(--amber-soft);border:1px solid #ecd2a0;color:#8a5608;}
-  /* ---------- FR blocks ---------- */
-  .fr{border:1px solid var(--line);border-radius:12px;padding:0;margin:18px 0;overflow:hidden;}
+  .fr{border:1px solid var(--line);border-radius:12px;margin:18px 0;overflow:hidden;}
   .fr-head{background:#f7f9ff;border-bottom:1px solid var(--line);padding:13px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
   .fr-head .fr-id{font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:700;color:var(--brand);font-size:13px;}
   .fr-head b{font-size:15.5px;}
   .fr-body{padding:16px 22px 8px;}
   .fr-body h4{margin-top:14px;}
-  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:0 26px;}
+  /* ---------- Chat transcript ---------- */
+  .chat{background:#f0f3f8;border:1px solid var(--line);border-radius:14px;padding:22px 20px;margin:18px 0;}
+  .msg{display:flex;gap:11px;margin:16px 0;align-items:flex-start;}
+  .msg .av{
+    width:32px;height:32px;border-radius:9px;flex:none;display:flex;align-items:center;justify-content:center;
+    font-size:14px;font-weight:700;color:#fff;
+  }
+  .msg.user .av{background:#4a5b7a;}
+  .msg.bot .av{background:linear-gradient(135deg,#2456f6,#5a82ff);}
+  .msg.sys .av{background:#8a94a6;}
+  .msg .bubble{
+    background:#fff;border:1px solid var(--line);border-radius:4px 12px 12px 12px;
+    padding:11px 15px;font-size:13.8px;max-width:92%;box-shadow:0 1px 3px rgba(20,40,80,.05);
+  }
+  .msg.user .bubble{background:#e9f0ff;border-color:#cddcff;border-radius:12px 4px 12px 12px;}
+  .msg .who{font-size:11.5px;color:var(--ink-3);margin-bottom:2px;font-weight:600;}
+  .msg .bubble p{margin:6px 0;}
+  .msg .bubble .muted{color:var(--ink-3);font-size:12.8px;}
+  .attach{
+    display:flex;align-items:center;gap:9px;background:#fff;border:1px dashed #b6c4e0;border-radius:9px;
+    padding:8px 13px;font-size:13px;margin:6px 0;
+  }
+  .attach .fi{font-size:17px;}
+  .kcand{border:1.5px solid var(--brand);border-radius:11px;overflow:hidden;margin:10px 0;background:#fff;}
+  .kcand .kch{background:var(--brand-soft);padding:9px 14px;font-size:13px;font-weight:700;color:var(--brand-dark);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+  .kcand .kcb{padding:11px 14px;font-size:13.2px;}
+  .kcand .kcb table{margin:6px 0;font-size:12.8px;}
+  .kcand .kcb th{width:86px;padding:6px 9px;}
+  .kcand .kcb td{padding:6px 9px;}
+  .kcand .src{font-size:12px;color:var(--ink-3);margin-top:6px;}
+  .quick{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px;}
+  .quick .q{
+    border:1px solid #b9c8ec;background:#f5f8ff;color:var(--brand-dark);border-radius:999px;
+    padding:3px 12px;font-size:12.3px;font-weight:600;
+  }
+  .finding{border:1px solid var(--line);border-left:4px solid var(--red);border-radius:8px;padding:11px 14px;margin:9px 0;background:#fff;}
+  .finding.mid{border-left-color:var(--amber);}
+  .finding.low{border-left-color:var(--blue);}
+  .finding .f-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px;font-size:13.5px;}
+  .finding .f-head .loc{font-size:12px;color:var(--ink-3);}
+  .finding .quote{background:#f7f8fa;border-left:3px solid #cdd5e0;padding:6px 11px;font-size:12.8px;color:var(--ink-2);margin:6px 0;border-radius:0 6px 6px 0;}
+  .finding .basis{font-size:12.5px;color:var(--brand-dark);background:var(--brand-soft);border-radius:6px;padding:7px 11px;margin:6px 0;}
+  .finding .fix{font-size:13px;margin:6px 0;}
+  .refnum{
+    display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;
+    background:var(--brand);color:#fff;border-radius:5px;font-size:11px;font-weight:700;vertical-align:1px;
+  }
+  .refblock{border:1px solid var(--line);border-radius:8px;padding:9px 13px;margin:8px 0;font-size:12.6px;background:#fbfcfe;}
+  .refblock b{color:var(--brand-dark);}
+  .verdict{border-radius:10px;padding:12px 17px;margin:10px 0;font-weight:600;display:flex;align-items:center;gap:11px;font-size:13.8px;flex-wrap:wrap;}
+  .verdict.warn{background:var(--amber-soft);border:1px solid #ecd2a0;color:#8a5608;}
+  .verdict .sub{font-weight:400;font-size:12px;color:#8a6a3a;}
+  .progress{font-size:12.8px;color:var(--ink-3);margin:6px 0;}
+  .progress .bar{height:6px;border-radius:4px;background:#e3e8f0;overflow:hidden;margin-top:5px;}
+  .progress .bar i{display:block;height:100%;width:68%;background:linear-gradient(90deg,#2456f6,#5a82ff);border-radius:4px;}
+  .typing{color:var(--ink-3);font-size:12.8px;}
+  .typing::after{content:"▍";animation:blink 1s steps(1) infinite;}
+  @keyframes blink{50%{opacity:0;}}
+  .foot-note{text-align:center;color:var(--ink-3);font-size:12.5px;margin-top:30px;}
+  .persona{display:flex;gap:16px;flex-wrap:wrap;margin:14px 0;}
+  .persona .p{flex:1;min-width:230px;border:1px solid var(--line);border-radius:11px;padding:15px 18px;background:#fbfcfe;}
+  .persona .p b{display:block;font-size:14.5px;margin-bottom:4px;}
+  .persona .p .who{font-size:12px;color:var(--brand);margin-bottom:6px;font-weight:600;}
+  .persona .p p{font-size:13px;color:var(--ink-2);margin:0;}
   @media(max-width:1100px){
     .flow{flex-direction:column;}
     .flow .step{min-width:0;}
@@ -186,60 +204,49 @@
     nav.toc{display:none;}
     main{margin-left:0;padding:20px 14px 60px;}
     section{padding:22px 18px;}
-    .two-col{grid-template-columns:1fr;}
-    .mock .mock-bar{flex-direction:column;align-items:flex-start;gap:3px;}
   }
-  .foot-note{text-align:center;color:var(--ink-3);font-size:12.5px;margin-top:30px;}
-  .persona{display:flex;gap:16px;flex-wrap:wrap;margin:14px 0;}
-  .persona .p{flex:1;min-width:230px;border:1px solid var(--line);border-radius:11px;padding:15px 18px;background:#fbfcfe;}
-  .persona .p b{display:block;font-size:14.5px;margin-bottom:4px;}
-  .persona .p .who{font-size:12px;color:var(--brand);margin-bottom:6px;font-weight:600;}
-  .persona .p p{font-size:13px;color:var(--ink-2);margin:0;}
 </style>
 </head>
 <body>
 
 <nav class="toc">
   <div class="brand">
-    <div class="logo">合同审核智能体</div>
-    <div class="sub">Contract Review Agent · PRD v1.0</div>
+    <div class="logo">合同审核对话智能体</div>
+    <div class="sub">Contract Review Chat Agent · PRD v2.0</div>
   </div>
   <a href="#s1">1 · 背景与问题</a>
   <a href="#s2">2 · 产品目标与非目标</a>
   <a href="#s3">3 · 用户与核心场景</a>
-  <a href="#s4">4 · 产品定位与核心机制</a>
-  <a href="#s5">5 · 范围（P0 / P1）</a>
-  <a href="#s6">6 · 核心对象模型与状态</a>
-  <a href="#s7">7 · 核心用户流程</a>
-  <a href="#s7-1" class="lvl2">7.1 素材入库学习闭环</a>
-  <a href="#s7-2" class="lvl2">7.2 单条款审核</a>
-  <a href="#s7-3" class="lvl2">7.3 整篇合同审核</a>
-  <a href="#s7-4" class="lvl2">7.4 反馈再学习闭环</a>
-  <a href="#s8">8 · 功能需求</a>
-  <a href="#s8-1" class="lvl2">FR-01 素材接入与解析</a>
-  <a href="#s8-2" class="lvl2">FR-02 知识提炼与入库</a>
-  <a href="#s8-3" class="lvl2">FR-03 知识库治理</a>
-  <a href="#s8-4" class="lvl2">FR-04 审核配置</a>
-  <a href="#s8-5" class="lvl2">FR-05 单条款审核</a>
-  <a href="#s8-6" class="lvl2">FR-06 整篇合同审核</a>
-  <a href="#s8-7" class="lvl2">FR-07 审核报告</a>
-  <a href="#s8-8" class="lvl2">FR-08 反馈与持续学习</a>
-  <a href="#s8-9" class="lvl2">FR-09 冷启动与空库</a>
-  <a href="#s9">9 · 审核意见输出规范（示例）</a>
-  <a href="#s10">10 · 共享规则与异常</a>
-  <a href="#s11">11 · 开放问题</a>
-  <a href="#s12">12 · 术语表</a>
+  <a href="#s4">4 · 产品形态与核心机制</a>
+  <a href="#s5">5 · 对话交互总则</a>
+  <a href="#s6">6 · 范围（P0 / P1）</a>
+  <a href="#s7">7 · 核心对象模型与状态</a>
+  <a href="#s8">8 · 核心对话流程</a>
+  <a href="#s9">9 · 功能需求</a>
+  <a href="#s9-1" class="lvl2">FR-01 对话接入与意图识别</a>
+  <a href="#s9-2" class="lvl2">FR-02 素材学习与确认</a>
+  <a href="#s9-3" class="lvl2">FR-03 对话式知识库治理</a>
+  <a href="#s9-4" class="lvl2">FR-04 审核口径配置</a>
+  <a href="#s9-5" class="lvl2">FR-05 单条款审核对话</a>
+  <a href="#s9-6" class="lvl2">FR-06 整篇合同审核对话</a>
+  <a href="#s9-7" class="lvl2">FR-07 结果产出与溯源</a>
+  <a href="#s9-8" class="lvl2">FR-08 口头反馈与再学习</a>
+  <a href="#s9-9" class="lvl2">FR-09 冷启动与空库</a>
+  <a href="#s10">10 · 对话实录示例</a>
+  <a href="#s11">11 · 共享规则与异常</a>
+  <a href="#s12">12 · 开放问题</a>
+  <a href="#s13">13 · 术语表</a>
 </nav>
 
 <main>
 <div class="wrap">
 
 <header class="doc-head">
-  <h1>合同审核智能体 产品需求文档</h1>
-  <div class="tagline">把法务的审核原则与案例沉淀为可进化的知识库，让智能体依据知识库审核新合同</div>
+  <h1>合同审核对话智能体 产品需求文档</h1>
+  <div class="tagline">在一个对话框里完成经验投喂、知识沉淀、合同审核与持续纠错——不建任何管理页面，结果由 agent 直接产出</div>
   <div class="meta">
-    <span><b>文档版本：</b>v1.0（草案）</span>
-    <span><b>日期：</b>2026-10-11</span>
+    <span><b>文档版本：</b>v2.0（草案，对话形态修订）</span>
+    <span><b>日期：</b>2026-10-12</span>
     <span><b>状态：</b>待评审</span>
     <span><b>文档类型：</b>新产品 PRD（重型）</span>
   </div>
@@ -250,11 +257,11 @@
   <h2><span class="num">1</span>背景与问题</h2>
   <p class="lead">Evidence → affected user & moment → product decision → observable outcome</p>
   <p><b>观察到的问题：</b>企业合同审核高度依赖法务个人经验——审核原则散落在指引文档、聊天记录和老法务的脑子里；历史合同的审核案例（含修订痕迹与点评）难以复用；新人审合同尺度不一、漏审高发；面对几十页合同逐条排查成本高、效率低。通用大模型虽能"看"合同，但其意见<b>没有企业立场、不引用企业内部标准、无法持续积累组织经验</b>，且存在无依据编造风险，难以在真实审核场景中被信任。</p>
-  <p><b>受影响的用户与时刻：</b>法务/合同审核人员在两类时刻最痛：①拿到新合同（或单个争议条款）需要快速给出有依据的审核意见时；②想把自己的审核经验与历史案例传承给团队、沉淀为组织资产时。</p>
-  <p><b>产品决策：</b>构建一个合同审核智能体，用户可便捷投喂<b>审核原则</b>与<b>审核案例</b>（单条款或整篇合同），智能体将其提炼为结构化、可溯源、经人工确认生效的<b>知识库</b>；审核新合同时，智能体仅依据知识库进行条款比对、风险定位与修改建议输出，并将用户对审核结果的反馈回流为新知识，形成"投喂—沉淀—审核—反馈"的双闭环。</p>
+  <p><b>受影响的用户与时刻：</b>法务/合同审核人员在两类时刻最痛：①拿到新合同（或单个争议条款）需要快速给出有依据的审核意见时；②想把自己的审核经验与历史案例传承给团队、沉淀为组织资产时。这两类时刻都发生在即时沟通工具里，用户不愿为了审一份合同去学习和操作一套专门系统。</p>
+  <p><b>产品决策：</b>构建一个<b>纯对话形态</b>的合同审核智能体。用户只需在对话框里粘贴条款、上传文件、用自然语言交代"这是原则，学一下""帮我按乙方立场审"，智能体即在对话中完成解析、知识提炼、风险审核与结果产出；所有知识沉淀经用户在对话中确认后生效，审核反馈通过对话中的自然语言纠错回流，形成"投喂—沉淀—审核—反馈"双闭环。<b>产品不提供独立的知识库管理页面、报告页面或任何 Web 控制台</b>；对话是唯一交互界面。</p>
   <div class="callout key">
     <span class="ct">预期可观察结果</span>
-    ①用户上传原则/案例后，能看到结构化的知识条目候选，确认后即在库中可检索、可被审核引用；②审核新合同时，每一条风险意见都能点开看到所依据的内部规则/案例出处；③审核报告中的误报、漏报反馈可再次沉淀为知识，知识库随使用持续变厚、审核命中率随使用持续提高（指标口径见 §11 开放问题）。
+    ①用户在对话中投喂原则/案例，收到结构化知识候选消息，回复确认后知识即在库中可检索、可被审核引用；②审核新合同时，结果直接出现在对话里，每条风险意见都能看到编号依据并可要求展开出处；③用户对结果说"这条错了/漏了一条"，智能体即生成知识更新候选，确认后再审同类条款口径改变。
   </div>
 </section>
 
@@ -264,19 +271,21 @@
   <h3>2.1 产品目标</h3>
   <table>
     <tr><th style="width:150px">目标</th><th>可观察的产品表现</th></tr>
-    <tr><td><b>经验可沉淀</b></td><td>原则与案例（条款级/合同级）经解析、提炼、人工确认三步即可成为生效知识条目，沉淀过程无需用户理解任何技术概念。</td></tr>
-    <tr><td><b>知识可进化</b></td><td>知识条目支持版本更新、停用、冲突裁决；审核反馈可生成知识更新候选；每次变更保留来源与版本链。</td></tr>
+    <tr><td><b>纯对话可用</b></td><td>用户全部工作（投喂、确认知识、审核、追问、纠错、管库、导出）均在单一对话窗口以自然语言 + 文件附件完成，无需打开任何页面；不熟悉指令的用户说大白话也能完成。</td></tr>
+    <tr><td><b>经验可沉淀</b></td><td>原则与案例（条款级/合同级）经对话内解析、提炼、确认三步成为生效知识条目，沉淀过程无需用户理解任何技术概念。</td></tr>
+    <tr><td><b>知识可进化</b></td><td>知识条目支持版本更新、停用、冲突裁决，均可通过对话指令完成；每次变更保留来源与版本链。</td></tr>
     <tr><td><b>审核有依据</b></td><td>单条款与整篇合同审核输出的每一条风险发现，均至少引用一条生效知识条目（规则或案例）；无依据的内容只能以"待确认提示"形式出现，不得冒充风险结论。</td></tr>
-    <tr><td><b>尺度可配置</b></td><td>审核前可设定我方立场（甲方/乙方）、合同类型与严格度，同一合同在不同立场下输出不同意见。</td></tr>
-    <tr><td><b>结论可信任</b></td><td>风险分级、置信度、依据跳转、缺失/未覆盖显式声明、人工终审提示贯穿全部输出；报告永久绑定出审时的知识库版本快照。</td></tr>
+    <tr><td><b>尺度可配置</b></td><td>审核立场（甲方/乙方）、合同类型与严格度均可在对话中口头设定并可记住为默认，单次可临时覆盖；同一合同在不同立场下输出不同意见。</td></tr>
+    <tr><td><b>结论可信任</b></td><td>风险分级、置信度、依据编号与展开、缺失/未覆盖显式声明、人工终审提示贯穿全部对话产出；整篇报告永久绑定出审时的知识库版本快照。</td></tr>
   </table>
   <h3>2.2 非目标（P0 明确不做）</h3>
   <ul>
+    <li><b>不做任何 Web 管理界面/控制台</b>：不建知识库管理页、审核任务列表页、报告详情页、设置页。全部能力通过对话与对话内结构化消息承载。</li>
     <li><b>不做无人值守的自动决策</b>：智能体不出具最终法律意见、不自动拒签/放行合同；所有风险结论为辅助意见，需人工终审。</li>
     <li><b>不做黑盒模型再训练</b>：用户素材不通过不可见的"模型微调"消化；所有可用于审核的知识必须以人可读、可编辑、可停用的条目形式存在并经确认生效。</li>
-    <li><b>不做合同起草/排版/签署</b>：P0 仅提供条款级修改建议文本（可复制/替换），不做整篇合同起草、在线编辑、电子签。</li>
-    <li><b>不做外部法规自动更新库</b>：法律法规、司法解释等外部权威来源的自动订阅与更新列入 P1；P0 外部法规只能由用户作为"素材"自行投喂。</li>
-    <li><b>不做审批流替代</b>：不内置多级法务审批/用印流程（P1 视集成情况评估）。</li>
+    <li><b>不做合同起草/在线编辑/电子签</b>：P0 仅提供条款级修改建议文本（直接在对话中给出，可复制；整篇可按用户要求导出为文件），不做合同起草、在线修订、签署流程。</li>
+    <li><b>不做外部法规自动更新库</b>：法律法规等外部权威来源的自动订阅列入 P1；P0 外部法规只能由用户在对话中投喂。</li>
+    <li><b>不做审批流替代与多人协作权限体系</b>：P0 面向单工作空间内的对话使用，不内置多级法务审批/用印流程与角色矩阵。</li>
   </ul>
 </section>
 
@@ -288,40 +297,48 @@
     <div class="p">
       <span class="who">主要用户 · 企业法务 / 合同管理员</span>
       <b>经验沉淀者 & 审核执行者</b>
-      <p>负责公司各类合同审核，手头有审核指引、历史合同修订版和自己总结的套路。需要把经验结构化沉淀，并对业务部门提交的新合同快速出意见。</p>
+      <p>手头有审核指引、历史合同修订稿和自己总结的套路。希望像跟助理说话一样把材料丢过去沉淀经验，并对业务部门发来的新合同快速拿到可发出的审核意见。</p>
     </div>
     <div class="p">
       <span class="who">次要用户 · 业务经办（采购/销售/BD）</span>
       <b>前置自查者</b>
-      <p>在合同法务终审前，用智能体对单个条款或合同初稿做前置自查，提前消灭明显问题。只使用审核能力，不管理知识库。</p>
+      <p>合同法务终审前，把争议条款或合同初稿直接发到对话框做前置自查。只使用审核能力，不沉淀知识（P0 不做权限隔离，仅通过约定使用方式区分）。</p>
     </div>
     <div class="p">
       <span class="who">次要用户 · 法务负责人 / 外部律师</span>
       <b>标准制定者 & 复核者</b>
-      <p>制定审核原则与风险偏好，裁决规则冲突，复核高风险合同，关注知识库质量与审核口径一致性。</p>
+      <p>投喂审核原则与风险偏好，在对话中裁决规则冲突、追问高风险合同的依据与让步底线，关注知识库质量与审核口径一致性。</p>
     </div>
   </div>
-  <h3>3.2 核心场景</h3>
+  <h3>3.2 核心场景（全部发生在对话中）</h3>
   <table>
-    <tr><th style="width:60px">场景</th><th>触发</th><th>用户要完成的事</th><th>完成证据</th></tr>
-    <tr><td><b>S1</b></td><td>拿到一份审核指引文档 / 一批历史合同修订稿</td><td>把原则和案例投喂给智能体并沉淀为知识</td><td>素材对应的知识条目状态为"已生效"，可检索、可溯源到原文</td></tr>
-    <tr><td><b>S2</b></td><td>业务群里发来一句争议条款（如违约责任条款）</td><td>快速判断该条款在我方立场下的风险并拿到修改示范</td><td>得到带风险等级、依据与替代表述的单条款审核卡</td></tr>
-    <tr><td><b>S3</b></td><td>收到对方发来的整篇合同（Word/PDF）</td><td>全面排查风险、缺失条款与前后矛盾，形成可发出的审核意见</td><td>得到整篇审核报告：总体结论 + 逐条发现 + 缺失/一致性问题，可导出</td></tr>
-    <tr><td><b>S4</b></td><td>发现智能体误报或漏报</td><td>纠正本次结果，并让智能体"下次记住"</td><td>反馈被采纳为知识更新候选并经确认入库，同类条款再审时口径改变</td></tr>
+    <tr><th style="width:60px">场景</th><th>用户在对话框里做什么</th><th>完成证据（agent 的产出）</th></tr>
+    <tr><td><b>S1</b></td><td>把审核指引/历史合同修订稿作为附件发出，或直接粘贴条款案例并说"学一下"</td><td>agent 回复知识候选消息，用户逐条确认后，回复"已生效"并可被后续审核引用</td></tr>
+    <tr><td><b>S2</b></td><td>粘贴一句争议条款（可带一句"按我方是供货方看"）</td><td>agent 回复单条款审核卡：风险等级、依据编号、修改示范；可继续多轮追问</td></tr>
+    <tr><td><b>S3</b></td><td>上传整篇合同文件（Word/PDF），说"帮我审，甲方立场"</td><td>agent 流式汇报进度后回复总体结论 + 逐条发现 + 缺失/一致性问题；用户可要求导出 Word/PDF</td></tr>
+    <tr><td><b>S4</b></td><td>直接回复审核结果："第 2 条误报""漏了数据合规的问题，以后这类要提示"</td><td>agent 记录反馈并生成知识更新候选，确认后入库，再审同类条款口径改变</td></tr>
   </table>
 </section>
 
 <!-- ============ 4 ============ -->
 <section id="s4">
-  <h2><span class="num">4</span>产品定位与核心机制</h2>
-  <p class="lead">智能体 = 三层知识库 + 人在回路的知识沉淀 + 依据可溯源的合同审核</p>
+  <h2><span class="num">4</span>产品形态与核心机制</h2>
+  <p class="lead">一个对话框 · 三层知识库 · 人在回路的知识沉淀 · 依据可溯源的合同审核</p>
 
-  <h3>4.1 三层知识模型</h3>
-  <p>知识库不是一个"文档堆"，而是由三层结构化知识构成。审核时三层协同：<b>原则层定立场与裁决优先级，规则层做结构化判定，案例层做语义比对与佐证</b>。</p>
+  <h3>4.1 产品形态：对话即产品</h3>
+  <ul>
+    <li><b>单一对话窗口</b>：用户面向的就是一个聊天窗口（承载终端不限：独立对话应用 / 企业 IM 内的机器人会话 / 网页聊天窗，P0 至少落地一种，终端选择见 <span class="chip info">Q1</span>）。窗口支持文本输入与文件附件（.docx / 文字版 .pdf / .txt）。</li>
+    <li><b>无页面跳转</b>：知识库、审核任务、报告均不是"页面"，而是对话中的<b>消息</b>（结构化卡片消息 / 文本结论 / 文件消息）；查库、改规则、停用条目均通过对话指令完成。</li>
+    <li><b>自然语言优先，快捷操作辅助</b>：卡片消息上可附快捷操作（如"✅确认 / ✏️修改 / 🔀合并 / ❌驳回"），但<b>每一项操作都必须能用纯文字完成</b>（如回复"第 2 条改成日万分之三""驳回第 3 条"），保证用户只用打字也能完成全部工作。</li>
+    <li><b>跨会话记忆</b>：会话可以关闭重开；知识库、审核配置（默认立场/严格度）跨会话持久保留；单个合同的审核上下文在该会话及历史消息中可随时找回。</li>
+  </ul>
+
+  <h3>4.2 三层知识模型</h3>
+  <p>知识库不是一个"文档堆"，而是由三层结构化知识构成。审核时三层协同：<b>原则层定立场与裁决优先级，规则层做结构化判定，案例层做语义比对与佐证</b>。三层均由对话投喂、对话确认、对话管理。</p>
   <div class="layers">
     <div class="layer l1">
       <div class="lh"><span class="tag">第一层</span>原则层 · Principle</div>
-      <p>审核立场与总纲。例："我方作为供货方，不接受无限连带责任""违约金不超过合同总额 20%""争议管辖优先约定我方所在地法院"。来源：公司审核指引、风险偏好文件。作用：立场过滤、规则冲突时的裁决依据、规则未覆盖时的兜底参照。</p>
+      <p>审核立场与总纲。例："我方作为供货方，不接受无限连带责任""违约金不超过合同总额 20%""争议管辖优先约定我方所在地法院"。来源：公司审核指引、风险偏好表述。作用：立场过滤、规则冲突时的裁决依据、规则未覆盖时的兜底参照。</p>
     </div>
     <div class="layer-arrow">▲ 约束 / 裁决</div>
     <div class="layer l2">
@@ -335,36 +352,35 @@
     </div>
   </div>
 
-  <h3>4.2 核心机制一：人在回路（Human-in-the-loop）的知识沉淀</h3>
-  <p>智能体对投喂素材做解析与<b>提炼</b>，产出知识条目<b>候选</b>；候选必须经用户确认/编辑后才能"生效"参与审核。系统<b>永不自动生效规则、永不因投喂直接改写已生效规则</b>。这是法律场景下产品可信的底线机制。</p>
+  <h3>4.3 核心机制一：人在回路（Human-in-the-loop）的知识沉淀</h3>
+  <p>智能体对投喂素材做解析与<b>提炼</b>，在对话中产出知识条目<b>候选消息</b>；候选必须经用户在对话中确认/编辑后才能"生效"参与审核。系统<b>永不自动生效规则、永不因投喂直接改写已生效规则</b>。这是法律场景下产品可信的底线机制。</p>
 
-  <h3>4.3 核心机制二：双闭环</h3>
-  <div class="flow-wrap">
-    <h4>闭环 A · 学习闭环（素材 → 知识库）</h4>
-    <div class="flow">
-      <div class="step"><span class="n">1</span><b>投喂素材</b><span>原则 / 条款案例 / 整篇合同案例，粘贴或上传文件</span></div>
-      <div class="arrow">→</div>
-      <div class="step"><span class="n">2</span><b>解析切分</b><span>识别条款结构、归类条款类型、抽取元信息</span></div>
-      <div class="arrow">→</div>
-      <div class="step"><span class="n">3</span><b>提炼候选</b><span>生成结构化知识条目卡片，自动去重/标冲突</span></div>
-      <div class="arrow">→</div>
-      <div class="step"><span class="n">4</span><b>人工确认</b><span>编辑 / 通过 / 合并 / 裁决冲突</span></div>
-      <div class="arrow">→</div>
-      <div class="step"><span class="n">5</span><b>生效入库</b><span>可检索、可引用，带来源与版本</span></div>
-    </div>
-    <h4>闭环 B · 审核闭环（新合同 → 反馈 → 回流知识库）</h4>
-    <div class="flow">
-      <div class="step"><span class="n">1</span><b>提交合同</b><span>单条款或整篇，设定立场与严格度</span></div>
-      <div class="arrow">→</div>
-      <div class="step"><span class="n">2</span><b>检索比对</b><span>规则结构化判定 + 案例语义匹配 + 原则立场约束</span></div>
-      <div class="arrow">→</div>
-      <div class="step"><span class="n">3</span><b>审核报告</b><span>风险分级、依据引用、修改建议、置信度</span></div>
-      <div class="arrow">→</div>
-      <div class="step"><span class="n">4</span><b>人工处置</b><span>采纳 / 驳回 / 编辑建议 / 补报漏项</span></div>
-      <div class="arrow">→</div>
-      <div class="step"><span class="n">5</span><b>反馈回流</b><span>生成知识更新候选，确认后回到闭环 A</span></div>
-    </div>
+  <h3>4.4 核心机制二：双闭环</h3>
+  <h4>闭环 A · 学习闭环（对话投喂 → 知识库）</h4>
+  <div class="flow">
+    <div class="step"><span class="n">1</span><b>对话投喂</b><span>发附件/粘贴文本，说"学一下，这是原则"</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">2</span><b>对话确认解析</b><span>agent 汇报切分与归类，用户口头纠正</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">3</span><b>候选消息</b><span>结构化卡片逐条发出，自动标重/标冲突</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">4</span><b>对话确认</b><span>"通过/改成…/和 R-014 合并/驳回"</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">5</span><b>生效入库</b><span>agent 回执生效 ID，立即可引用</span></div>
   </div>
+  <h4>闭环 B · 审核闭环（新合同 → 对话纠错 → 回流知识库）</h4>
+  <div class="flow">
+    <div class="step"><span class="n">1</span><b>提交合同</b><span>发条款文本或合同文件，口头设定立场</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">2</span><b>检索比对</b><span>规则判定 + 案例匹配 + 原则立场约束</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">3</span><b>对话产出</b><span>分级、依据编号、修改建议、置信度</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">4</span><b>口头处置</b><span>"采纳/驳回/接受风险/第2条改成…"</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">5</span><b>反馈回流</b><span>生成更新候选，确认后回到闭环 A</span></div>
+  </div>
+  <div class="loop-label">↺ 高频同类驳回时，agent 主动在对话中提示"是否把这个模式沉淀为规则修订"，但同样不自动生效</div>
 
   <div class="callout warn">
     <span class="ct">为什么不直接"喂给大模型让它自己学"</span>
@@ -374,572 +390,714 @@
 
 <!-- ============ 5 ============ -->
 <section id="s5">
-  <h2><span class="num">5</span>范围（P0 / P1）</h2>
-  <p><b>P0 最小完整旅程：</b>用户从空库起步 → 投喂至少 1 份原则与 1 个案例并确认入库 → 用该知识库审核一份单条款与一份整篇合同 → 对报告处置并把 1 条反馈沉淀回库。旅程的每一步失败都有恢复路径（解析失败可重试、提炼不准可手改、审错了可驳回回流）。</p>
+  <h2><span class="num">5</span>对话交互总则</h2>
+  <p class="lead">以下规则适用于智能体的全部对话行为，各 FR 不再重复定义</p>
+
+  <h3>5.1 意图识别与模式自动切换</h3>
+  <p>用户无需选择"学习模式/审核模式"。智能体根据消息内容与附件自动判断意图，并按以下规则处理：</p>
   <table>
-    <tr><th style="width:260px">能力</th><th style="width:70px">优先级</th><th>说明</th></tr>
-    <tr><td>素材接入：文本粘贴；Word（.docx）、PDF（文字版）、.txt 上传</td><td><span class="chip p0">P0</span></td><td>整篇合同案例支持附带审核意见/修订说明文本</td></tr>
-    <tr><td>解析切分、条款类型自动归类与人工修正</td><td><span class="chip p0">P0</span></td><td>归类不准时用户可改</td></tr>
-    <tr><td>知识条目提炼候选 + 人工确认/编辑/合并/冲突裁决</td><td><span class="chip p0">P0</span></td><td>三层知识模型全量支持</td></tr>
-    <tr><td>知识库检索、查看、编辑（版本化）、停用/启用、来源溯源</td><td><span class="chip p0">P0</span></td><td>条款类型覆盖分布统计</td></tr>
-    <tr><td>审核配置：立场、合同类型、严格度、规则适用范围</td><td><span class="chip p0">P0</span></td><td>可保存为默认配置</td></tr>
-    <tr><td>单条款审核（含多轮追问）</td><td><span class="chip p0">P0</span></td><td>输出审核卡，依据可跳转</td></tr>
-    <tr><td>整篇合同审核：逐条审 + 必备条款完整性检查 + 跨条款一致性检查 + 总体结论</td><td><span class="chip p0">P0</span></td><td>长合同分批流式输出、进度可见</td></tr>
-    <tr><td>审核报告：在线处置 + 导出 Word/PDF + 知识库版本快照</td><td><span class="chip p0">P0</span></td><td>报告事后可复现依据</td></tr>
-    <tr><td>反馈（误报/漏报/修正）→ 知识更新候选 → 确认入库</td><td><span class="chip p0">P0</span></td><td>持续学习闭环</td></tr>
-    <tr><td>空库引导与无依据审核限制</td><td><span class="chip p0">P0</span></td><td>见 FR-09</td></tr>
-    <tr><td>基础角色：所有者 / 成员；操作审计日志</td><td><span class="chip p0">P0</span></td><td>单团队空间，权限模型见 §10.5</td></tr>
-    <tr><td>扫描件/图片 OCR、拍照上传</td><td><span class="chip p1">P1</span></td><td>P0 遇到无文字层 PDF 明确提示不支持</td></tr>
-    <tr><td>多知识库（按业务线/公司主体隔离）、细粒度协作权限、复核流程</td><td><span class="chip p1">P1</span></td><td>P0 单库 + 两角色</td></tr>
-    <tr><td>合同版本对比（修订模式差异比对）</td><td><span class="chip p1">P1</span></td><td></td></tr>
-    <tr><td>外部法规源订阅与自动更新提示</td><td><span class="chip p1">P1</span></td><td></td></tr>
-    <tr><td>批量合同审核、定期复审提醒</td><td><span class="chip p1">P1</span></td><td></td></tr>
-    <tr><td>集成：Word/WPS 插件、IM 机器人、合同管理系统/API</td><td><span class="chip p1">P1</span></td><td>集成形态见开放问题</td></tr>
-    <tr><td>知识库质量看板（命中率、误报率、覆盖率趋势）</td><td><span class="chip p1">P1</span></td><td>P0 仅做条款类型分布统计</td></tr>
-    <tr><td>报告在线链接分享与评论</td><td><span class="chip p1">P1</span></td><td>P0 仅文件导出</td></tr>
+    <tr><th style="width:150px">识别意图</th><th>典型信号</th><th>智能体行为</th></tr>
+    <tr><td>投喂学习</td><td>附件 + "学习/存档/这是我们的标准/原则/指引"；或文本 + "记一下"</td><td>进入 FR-02 学习流程</td></tr>
+    <tr><td>请求审核</td><td>条款文本；合同附件 + "审一下/看看/有没有问题"；无附件时直接粘贴一段条款</td><td>进入 FR-05/06 审核流程</td></tr>
+    <tr><td>管理知识库</td><td>"库里有哪些…""停用…""改成…""回滚…""R-014 是什么"</td><td>进入 FR-03 管理流程</td></tr>
+    <tr><td>追问</td><td>针对上一条审核结果的提问（"换成乙方呢""让步底线"）</td><td>在当前审核上下文内多轮回答</td></tr>
+    <tr><td>反馈纠错</td><td>"不对/误报/漏了/驳回/我改成…"</td><td>进入 FR-08 反馈流程</td></tr>
   </table>
+  <div class="callout key"><span class="ct">歧义处理</span>意图不明（例：发来一份合同但没说学还是审）时，智能体<b>只用一句话+选项确认</b>："这份文件是要我【学习成案例】还是【按新合同审核】？"，不得擅自假定为学习（避免脏知识入库）。</div>
+
+  <h3>5.2 消息形态规范</h3>
+  <table>
+    <tr><th style="width:140px">消息类型</th><th>用途</th><th>规范</th></tr>
+    <tr><td>普通文本消息</td><td>结论、说明、追问回答、回执</td><td>先结论后理由；长内容分段；一次对话只推进一件事</td></tr>
+    <tr><td>知识候选卡片</td><td>FR-02 提炼结果</td><td>一候选一卡：字段结构化、来源锚点摘要、疑似重复/冲突显著标记、附快捷操作；同批卡片编号（候选 1/3…），用户可按编号批量操作</td></tr>
+    <tr><td>审核发现卡片</td><td>FR-05/06 审核产出</td><td>字段遵循 §9.1 规范：定位、等级、原文摘录、问题说明、依据编号、建议文本、置信度；整篇发现统一编号（发现 1/N…）供用户按号引用</td></tr>
+    <tr><td>进度消息</td><td>整篇解析/审核长任务</td><td>先回一条"已收到，开始处理"，随后以编辑同一条消息或短消息汇报阶段进度（解析→审条款 x/N→一致性检查），任务结束给完成回执</td></tr>
+    <tr><td>确认请求消息</td><td>高影响操作</td><td>复述操作内容与影响，明确等待"确认/取消"，未获确认不执行</td></tr>
+    <tr><td>文件消息</td><td>整篇审核报告导出</td><td>仅在用户要求时产出 Word/PDF 文件（FR-07）</td></tr>
+  </table>
+
+  <h3>5.3 高影响操作确认门槛</h3>
+  <p>以下操作必须由智能体复述影响并取得用户明确确认（"确认/对/执行"）后才执行；快捷操作点选视同明确确认：</p>
+  <ul>
+    <li>知识条目生效、编辑修订已生效条目、停用/启用、回滚版本、冲突裁决；</li>
+    <li>批量通过候选（需告知数量与冲突项除外）；</li>
+    <li>删除素材；</li>
+    <li>导出整篇审核报告（确认导出口径：全量/仅未解决问题）。</li>
+  </ul>
+  <p>普通查询、单条款审核、追问、反馈记录（仅记录、不改知识库）无需确认。</p>
+
+  <h3>5.4 对话中的依据引用规范</h3>
+  <ul>
+    <li>发现卡内用编号角标引用依据，如 <span class="refnum">1</span><span class="refnum">2</span>，编号在本报告内对应"依据清单"；用户回复"展开依据 1"或"1 是什么"即收到该条目的完整内容与来源原文摘录。</li>
+    <li>依据标注一律带条目 ID 与版本（如 R-PAY-014 v3）；无依据内容只能以"待确认提示"样式出现，禁止使用角标伪装。</li>
+    <li>对话中引用条目内容时，区分"库内原文"与"智能体改写"（库内建议加引号标注来源，自行润色部分不加）。</li>
+  </ul>
+
+  <h3>5.5 其他对话行为规则</h3>
+  <ul>
+    <li><b>无依据不臆造</b>：阈值、法条、公司标准未在知识库中时，明确说"知识库未覆盖"，不得编造；可引导投喂。</li>
+    <li><b>可撤销</b>：知识类操作完成回执中固定带"回复'撤销'可回退本次操作"（撤销窗口见 §11.6）；审核任务可随时说"停止"，已产出部分保留。</li>
+    <li><b>口径记忆</b>：立场/严格度等配置（FR-04）与待裁决冲突等状态，智能体在相关对话中主动复述当前值，避免用户失忆。</li>
+    <li><b>单任务聚焦</b>：长流程（学习确认、整篇审核）中用户临时插话，智能体先处理插话，再用一句话提示未完成事项（"当前还有 3 张候选待确认，需要继续吗？"）。</li>
+  </ul>
 </section>
 
 <!-- ============ 6 ============ -->
 <section id="s6">
-  <h2><span class="num">6</span>核心对象模型与状态</h2>
-  <p class="lead">所有角色、对象、状态在本文档中保持唯一定义</p>
+  <h2><span class="num">6</span>范围（P0 / P1）</h2>
+  <p><b>P0 最小完整旅程：</b>用户首次打开对话 → 智能体引导投喂 1 份原则与 1 个案例并在对话中确认入库 → 用该知识库完成 1 次单条款审核与 1 次整篇合同审核 → 对结果口头纠错并把 1 条反馈沉淀回库。每一步失败都有对话恢复路径（解析失败可重发、提炼不准可口头改、审错了可驳回回流）。</p>
+  <table>
+    <tr><th style="width:300px">能力</th><th style="width:70px">优先级</th><th>说明</th></tr>
+    <tr><td>对话窗口：文本消息 + 文件附件（.docx / 文字版 .pdf / .txt）</td><td><span class="chip p0">P0</span></td><td>至少落地一种终端（IM 机器人或对话应用，Q1）</td></tr>
+    <tr><td>意图自动识别与一句话歧义确认</td><td><span class="chip p0">P0</span></td><td>学习/审核/管理/追问/反馈五类意图</td></tr>
+    <tr><td>对话内素材解析切分、条款归类与口头纠正</td><td><span class="chip p0">P0</span></td><td>切分边界/类型可用文字纠正</td></tr>
+    <tr><td>知识候选卡片消息 + 对话确认/编辑/合并/冲突裁决</td><td><span class="chip p0">P0</span></td><td>快捷操作与纯文字指令双通道</td></tr>
+    <tr><td>对话式知识库治理：自然语言查询、查看、改、停用、回滚、导出</td><td><span class="chip p0">P0</span></td><td>无管理页面；导出为结构化文件消息</td></tr>
+    <tr><td>审核口径对话配置（立场/类型/严格度/范围），可记为默认</td><td><span class="chip p0">P0</span></td><td>单次可口头覆盖</td></tr>
+    <tr><td>单条款审核（结构化卡片 + 多轮追问）</td><td><span class="chip p0">P0</span></td><td>依据可展开，建议可复制</td></tr>
+    <tr><td>整篇合同审核：进度汇报 + 逐条审 + 完整性 + 跨条款一致性 + 总体结论</td><td><span class="chip p0">P0</span></td><td>结果以多条对话消息产出</td></tr>
+    <tr><td>整篇报告按用户要求导出 Word/PDF 文件 + 知识库版本快照</td><td><span class="chip p0">P0</span></td><td>不主动推送文件；对话结果本身即可阅读</td></tr>
+    <tr><td>口头反馈（误报/漏报/修正）→ 知识更新候选 → 确认入库</td><td><span class="chip p0">P0</span></td><td>持续学习闭环</td></tr>
+    <tr><td>首次对话冷启动引导与空库审核限制</td><td><span class="chip p0">P0</span></td><td>见 FR-09</td></tr>
+    <tr><td>操作留痕（审计记录）与操作撤销窗口</td><td><span class="chip p0">P0</span></td><td>P0 无角色权限，仅留痕；留痕可通过对话查询</td></tr>
+    <tr><td>扫描件/图片 OCR、拍照上传</td><td><span class="chip p1">P1</span></td><td>P0 遇无文字层 PDF 在对话中明确提示不支持</td></tr>
+    <tr><td>多知识库（业务线/主体隔离）、群聊@、多人协作与确认权限</td><td><span class="chip p1">P1</span></td><td>P0 单空间单口径</td></tr>
+    <tr><td>合同版本对比（修订模式差异比对）</td><td><span class="chip p1">P1</span></td><td></td></tr>
+    <tr><td>外部法规源订阅与自动更新提示</td><td><span class="chip p1">P1</span></td><td></td></tr>
+    <tr><td>批量合同审核、定期复审主动提醒</td><td><span class="chip p1">P1</span></td><td>P0 由用户发起单次任务</td></tr>
+    <tr><td>对话式效果看板（命中率/误报率/覆盖率问答）</td><td><span class="chip p1">P1</span></td><td>P0 支持问"知识覆盖分布"，不做指标体系</td></tr>
+    <tr><td>语音消息、富媒体批注</td><td><span class="chip p1">P1</span></td><td></td></tr>
+  </table>
+</section>
 
-  <h3>6.1 核心对象</h3>
+<!-- ============ 7 ============ -->
+<section id="s7">
+  <h2><span class="num">7</span>核心对象模型与状态</h2>
+  <h3>7.1 核心对象</h3>
   <table>
     <tr><th style="width:130px">对象</th><th>定义</th><th>关键字段（产品视角）</th></tr>
-    <tr><td><b>素材</b><br>SourceMaterial</td><td>用户投喂的原始学习材料及其解析结果</td><td>素材类型（原则/条款案例/合同案例）、原文文件或文本、立场、合同类型、标签、解析切分结果、处理状态、上传人、时间</td></tr>
-    <tr><td><b>知识条目</b><br>KnowledgeItem</td><td>知识库中可被审核引用的最小生效单元，分三类：原则条目 / 规则条目 / 案例条目</td><td>见 6.2 字段规范；统一含：条目 ID、类别、状态、版本号、来源引用、适用立场、适用合同类型、标签、确认人、生效时间</td></tr>
-    <tr><td><b>审核配置</b><br>ReviewProfile</td><td>一次审核所使用的立场与口径参数</td><td>我方立场（甲方/乙方）、合同类型、严格度（宽松/标准/严格）、适用条目范围（全部/按标签）</td></tr>
-    <tr><td><b>审核任务</b><br>ReviewTask</td><td>一次审核动作（单条款 CLAUSE / 整篇 CONTRACT）</td><td>输入内容、审核配置、知识库版本快照号、任务状态、创建人、时间、关联报告</td></tr>
-    <tr><td><b>发现</b><br>Finding</td><td>审核产出的单条意见（风险/缺失/一致性问题/提示）</td><td>见 §9.1 字段规范：定位、类别、等级、说明、依据引用、建议文本、置信度、处置状态</td></tr>
-    <tr><td><b>反馈</b><br>Feedback</td><td>用户对发现的处置与纠错记录</td><td>类型（误报驳回/漏报补报/建议被改/结论不认可）、原因说明、关联发现、生成的知识候选、状态</td></tr>
+    <tr><td><b>对话会话</b><br>Conversation</td><td>用户与智能体的持续对话上下文</td><td>会话 ID、参与用户、当前待办（待确认候选数/进行中任务）、消息记录；会话可关闭重开</td></tr>
+    <tr><td><b>消息</b><br>Message</td><td>对话中的一次交互载体</td><td>文本/附件/候选卡片/发现卡片/进度/确认请求/文件；消息可被后续回复引用（"第 2 条…"）</td></tr>
+    <tr><td><b>素材</b><br>SourceMaterial</td><td>用户投喂的原始学习材料及其解析结果</td><td>素材类型（原则/条款案例/合同案例）、原文文件或文本、立场、合同类型、解析切分结果、处理状态、投喂时间</td></tr>
+    <tr><td><b>知识条目</b><br>KnowledgeItem</td><td>知识库中可被审核引用的最小生效单元：原则/规则/案例三类</td><td>见 7.2；统一含 ID、类别、状态、版本号、来源引用、适用立场、合同类型、标签、确认人、生效时间</td></tr>
+    <tr><td><b>审核配置</b><br>ReviewProfile</td><td>一次审核使用的立场与口径参数</td><td>我方立场、合同类型、严格度、适用条目范围；含"默认配置"与单次覆盖两层</td></tr>
+    <tr><td><b>审核任务</b><br>ReviewTask</td><td>一次审核动作（单条款 CLAUSE / 整篇 CONTRACT）</td><td>输入内容、审核配置、知识库版本快照号、任务状态、关联发现列表、所在会话</td></tr>
+    <tr><td><b>发现</b><br>Finding</td><td>审核产出的单条意见（风险/缺失/一致性/提示）</td><td>见 §9.1（FR-07）：定位、类别、等级、说明、依据引用、建议文本、置信度、处置状态、对话内编号</td></tr>
+    <tr><td><b>反馈</b><br>Feedback</td><td>用户对发现的口头纠错记录</td><td>类型（误报/漏报/建议被改/结论不认可）、原话、关联发现、生成的知识候选、状态</td></tr>
   </table>
 
-  <h3>6.2 知识条目字段规范</h3>
-  <div class="kcard">
-    <div class="kc-head"><b>规则条目（示例结构）</b><span class="chip p0">审核主依据</span></div>
-    <table>
-      <tr><th>条目名称</th><td>逾期付款违约金上限审查</td></tr>
-      <tr><th>条款类型</th><td>违约责任（可多选标签：付款、违约金）</td></tr>
-      <tr><th>适用合同类型</th><td>买卖合同 / 服务合同 / 通用</td></tr>
-      <tr><th>适用立场</th><td>甲方（付款方）/ 乙方（收款方）分别可配判定标准；或"双方通用"</td></tr>
-      <tr><th>风险点</th><td>违约金比例/日费率过高，超出司法支持上限，加重我方违约成本</td></tr>
-      <tr><th>判定条件</th><td>识别日费率/比例并年化换算；<b>年化 &gt; 同期 LPR 4 倍</b> 或 <b>总额超合同金额 20%</b> 判为高风险；支持"包含/不包含关键词模式"与阈值表达式（阈值由用户填写，系统不臆造数值）</td></tr>
-      <tr><th>风险等级</th><td>高 / 中 / 低 / 提示（默认值，审核时可因上下文调整）</td></tr>
-      <tr><th>正例 / 反例</th><td>正例："违约金按日万分之五，总额不超过合同总价 10%"；反例：原文摘录</td></tr>
-      <tr><th>建议修改文本</th><td>"乙方逾期付款的，按逾期金额日万分之三支付违约金，累计不超过应付金额的 10%。"</td></tr>
-      <tr><th>来源引用</th><td>素材《XX 公司合同审核指引 v3》第 4.2 节；案例条目 3 条（可展开）</td></tr>
-      <tr><th>状态 / 版本</th><td>已生效 · v2（v1 已归档，可查看差异、可回滚）</td></tr>
-    </table>
-  </div>
-  <p>原则条目结构较简：原则表述、适用立场、优先级（冲突裁决用）、来源；案例条目结构为：条款原文（或整篇合同+定位）、条款类型、正/反例性质、专家点评、当时处理方式/修改示范、来源素材。</p>
+  <h3>7.2 知识条目字段规范（规则条目示例）</h3>
+  <table>
+    <tr><th style="width:120px">字段</th><th>内容示例</th></tr>
+    <tr><td>条目名称</td><td>逾期付款违约金上限审查</td></tr>
+    <tr><td>条款类型</td><td>违约责任（可多标签：付款、违约金）</td></tr>
+    <tr><td>适用合同类型</td><td>买卖合同 / 服务合同 / 通用</td></tr>
+    <tr><td>适用立场</td><td>甲方（付款方）/ 乙方（收款方）分别可配；或"双方通用"</td></tr>
+    <tr><td>风险点</td><td>违约金比例/日费率过高，超出司法支持上限，加重我方违约成本</td></tr>
+    <tr><td>判定条件</td><td>日费率年化换算；<b>年化 &gt; 同期 LPR 4 倍</b> 或 <b>总额超合同金额 20%</b> 判高风险；支持关键词模式与阈值表达式（阈值由用户投喂，系统不臆造）</td></tr>
+    <tr><td>风险等级 / 置信默认</td><td>高 / 中 / 低 / 提示（默认等级，审核时可因上下文调整）</td></tr>
+    <tr><td>正例 / 反例</td><td>正例："违约金按日万分之五，总额不超过合同总价 10%"；反例：原文摘录</td></tr>
+    <tr><td>建议修改文本</td><td>"乙方逾期付款的，按逾期金额日万分之三支付违约金，累计不超过应付金额的 10%。"</td></tr>
+    <tr><td>来源引用</td><td>素材《XX 公司合同审核指引 v3》第 4.2 节（对话投喂记录可定位）；关联案例 3 条</td></tr>
+    <tr><td>状态 / 版本</td><td>已生效 · v2（v1 归档，可对话回滚、可对比差异）</td></tr>
+  </table>
+  <p style="font-size:13.5px;color:var(--ink-2)">原则条目：原则表述、适用立场、优先级（冲突裁决用）、来源。案例条目：条款原文（或整篇合同+定位）、条款类型、正/反例性质、专家点评、当时处理方式/修改示范、来源素材。</p>
 
-  <h3>6.3 状态机</h3>
+  <h3>7.3 状态机</h3>
   <h4>素材状态</h4>
   <div class="states">
-    <span class="state-box start">已上传</span><span class="arr">→</span>
+    <span class="state-box start">已收到</span><span class="arr">→</span>
     <span class="state-box">解析中</span><span class="arr">→<small>成功</small></span>
     <span class="state-box">待提炼</span><span class="arr">→</span>
-    <span class="state-box">待确认</span><span class="arr">→</span>
+    <span class="state-box">待确认（候选消息已发）</span><span class="arr">→</span>
     <span class="state-box end-ok">已入库</span>
   </div>
   <div class="states">
     <span class="state-box">解析中</span><span class="arr">→<small>失败</small></span>
-    <span class="state-box end-stop">解析失败（可重试/删除）</span>
+    <span class="state-box end-stop">解析失败（提示重发/换格式）</span>
     <span class="arr" style="margin-left:20px">｜</span>
     <span class="state-box">待确认</span><span class="arr">→<small>全部驳回</small></span>
-    <span class="state-box end-stop">已忽略（素材留档）</span>
+    <span class="state-box end-stop">已忽略（素材留痕）</span>
   </div>
   <h4>知识条目状态</h4>
   <div class="states">
-    <span class="state-box start">候选</span><span class="arr">→<small>人工确认</small></span>
-    <span class="state-box">已生效</span><span class="arr">→<small>编辑修订</small></span>
-    <span class="state-box">已生效 vN+1<br><small style="font-weight:400">（旧版本归档，可回滚）</small></span>
+    <span class="state-box start">候选</span><span class="arr">→<small>对话确认</small></span>
+    <span class="state-box">已生效</span><span class="arr">→<small>口头修订</small></span>
+    <span class="state-box">已生效 vN+1（旧版归档可回滚）</span>
   </div>
   <div class="states">
-    <span class="state-box">候选/已生效</span><span class="arr">→<small>与现有条目矛盾</small></span>
-    <span class="state-box end-stop">冲突待裁决</span><span class="arr">→<small>选定为准</small></span>
+    <span class="state-box">候选/已生效</span><span class="arr">→<small>判定互斥</small></span>
+    <span class="state-box end-stop">冲突待裁决</span><span class="arr">→<small>用户裁决</small></span>
     <span class="state-box">已生效</span>
     <span class="arr" style="margin-left:14px">｜</span>
-    <span class="state-box">已生效</span><span class="arr">→<small>停用</small></span>
-    <span class="state-box end-stop">已停用（可重新启用；历史报告仍可溯源）</span>
+    <span class="state-box">已生效</span><span class="arr">→<small>口头停用</small></span>
+    <span class="state-box end-stop">已停用（历史报告仍可溯源）</span>
   </div>
   <h4>审核任务与发现状态</h4>
   <div class="states">
     <span class="state-box start">审核中</span><span class="arr">→</span>
-    <span class="state-box">待复核</span><span class="arr">→<small>用户完成处置</small></span>
+    <span class="state-box">待复核（结果已发）</span><span class="arr">→<small>处置完成</small></span>
     <span class="state-box end-ok">已完成</span>
-    <span class="arr" style="margin-left:14px">｜失败→</span>
-    <span class="state-box end-stop">审核失败（可重试，不扣次数之外无其他惩罚）</span>
+    <span class="arr" style="margin-left:14px">｜失败/用户喊停→</span>
+    <span class="state-box end-stop">已中断（可重试，已产出部分保留）</span>
   </div>
   <div class="states">
     <span class="state-box start">待处理</span><span class="arr">→</span>
     <span class="state-box">已采纳</span>
-    <span class="arr">｜</span><span class="state-box">已知悉接受风险</span>
+    <span class="arr">｜</span><span class="state-box">接受风险</span>
     <span class="arr">｜</span><span class="state-box end-stop">已驳回（误报，必填原因→回流）</span>
     <span class="arr">｜</span><span class="state-box">已按建议修改</span>
   </div>
 </section>
 
-<!-- ============ 7 ============ -->
-<section id="s7">
-  <h2><span class="num">7</span>核心用户流程</h2>
-
-  <h3 id="s7-1">7.1 流程一：素材入库学习闭环</h3>
-  <div class="flow">
-    <div class="step"><span class="n">1</span><b>添加素材</b><span>选择类型：原则/条款案例/整篇合同案例；粘贴或上传</span></div>
-    <div class="arrow">→</div>
-    <div class="step"><span class="n">2</span><b>确认解析结果</b><span>核对条款切分与自动归类，拖拽边界、改类型</span></div>
-    <div class="arrow">→</div>
-    <div class="step"><span class="n">3</span><b>审阅候选卡片</b><span>逐张查看提炼结果；疑似重复/冲突有显著标记</span></div>
-    <div class="arrow">→</div>
-    <div class="step"><span class="n">4</span><b>确认入库</b><span>通过/编辑后通过/合并/驳回；冲突须裁决</span></div>
-    <div class="arrow">→</div>
-    <div class="step"><span class="n">5</span><b>生效可引用</b><span>进入知识库列表，立即可被审核检索</span></div>
-  </div>
-  <ul>
-    <li><b>原则素材</b>：提炼为 1～N 张原则条目候选（一条原则一张卡）。</li>
-    <li><b>条款案例</b>：用户可同时给出"条款原文 + 点评/修改示范"，提炼为案例条目；若点评中包含可复用标准，额外生成规则条目候选并互相建立关联。</li>
-    <li><b>整篇合同案例</b>：先切分条款；有审核意见/修订痕迹的，按意见定位将"问题条款 + 意见"配成案例条目对；无意见的，仅作为语义比对案例入库，不生成风险结论。</li>
-  </ul>
-
-  <h3 id="s7-2">7.2 流程二：单条款审核</h3>
-  <div class="flow">
-    <div class="step"><span class="n">1</span><b>粘贴条款</b><span>可附合同类型与相关上下文；条款类型自动识别可改</span></div>
-    <div class="arrow">→</div>
-    <div class="step"><span class="n">2</span><b>选立场/严格度</b><span>或直接沿用默认配置</span></div>
-    <div class="arrow">→</div>
-    <div class="step"><span class="n">3</span><b>即时审核</b><span>规则判定+案例匹配，流式给出审核卡</span></div>
-    <div class="arrow">→</div>
-    <div class="step"><span class="n">4</span><b>追问/处置</b><span>可多轮追问；可采纳、复制建议、驳回</span></div>
-    <div class="arrow">→</div>
-    <div class="step"><span class="n">5</span><b>存为报告</b><span>可选：保存为简版审核记录或导出</span></div>
-  </div>
-
-  <h3 id="s7-3">7.3 流程三：整篇合同审核</h3>
-  <div class="flow">
-    <div class="step"><span class="n">1</span><b>上传合同</b><span>Word/PDF；抽取主体、金额、期限等元信息供确认</span></div>
-    <div class="arrow">→</div>
-    <div class="step"><span class="n">2</span><b>确认配置</b><span>立场、合同类型、严格度、规则范围</span></div>
-    <div class="arrow">→</div>
-    <div class="step"><span class="n">3</span><b>全面审核</b><span>逐条审 + 完整性检查 + 跨条款一致性检查，进度可见</span></div>
-    <div class="arrow">→</div>
-    <div class="step"><span class="n">4</span><b>阅读报告</b><span>总体结论先行，高风险置顶，依据可跳转</span></div>
-    <div class="arrow">→</div>
-    <div class="step"><span class="n">5</span><b>处置导出</b><span>逐条采纳/驳回/改建议，导出 Word/PDF，反馈回流</span></div>
-  </div>
-  <div class="callout key">
-    <span class="ct">整篇审核的三类发现来源不同，报告中分区呈现</span>
-    ①<b>条款风险发现</b>——必须有知识库依据；②<b>必备条款缺失</b>——依据知识库中标记为"必备条款"的规则清单（清单是否内置见开放问题 Q2）；③<b>跨条款一致性问题</b>——属系统解析能力（主体名称、金额勾稽、日期逻辑、术语一致、争议方式冲突等），不需要知识库依据，但同样以"发现"形式列出、允许驳回。
-  </div>
-
-  <h3 id="s7-4">7.4 流程四：反馈再学习闭环</h3>
-  <div class="flow">
-    <div class="step"><span class="n">1</span><b>用户纠错</b><span>驳回误报（填原因）/ 补报漏报 / 编辑建议文本</span></div>
-    <div class="arrow">→</div>
-    <div class="step"><span class="n">2</span><b>生成学习候选</b><span>系统聚合反馈：新规则候选或现规则修订候选，附本次条款作案例</span></div>
-    <div class="arrow">→</div>
-    <div class="step"><span class="n">3</span><b>人工确认</b><span>同 FR-02：可编辑、合并、裁决冲突</span></div>
-    <div class="arrow">→</div>
-    <div class="step"><span class="n">4</span><b>知识库更新</b><span>新版本生效，旧版本归档</span></div>
-    <div class="arrow">→</div>
-    <div class="step"><span class="n">5</span><b>口径改变</b><span>后续同类审核按新知识判定</span></div>
-  </div>
-  <div class="loop-label">↺ 高频出现的同类驳回，系统主动提示"是否将该模式沉淀为规则修订"，但同样不自动生效</div>
-</section>
-
 <!-- ============ 8 ============ -->
 <section id="s8">
-  <h2><span class="num">8</span>功能需求</h2>
-  <p class="lead">本节为文档主体。每个模块按目的、触发、处理规则、结果与状态变更、异常组织。</p>
+  <h2><span class="num">8</span>核心对话流程</h2>
+
+  <h3>8.1 流程一：素材入库学习闭环</h3>
+  <div class="flow">
+    <div class="step"><span class="n">1</span><b>对话投喂</b><span>发附件或贴文本，交代类型与立场</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">2</span><b>解析回执</b><span>agent 汇报切分条款数与归类，用户口头纠正</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">3</span><b>分批发卡</b><span>候选卡片编号发出，标重/标冲突</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">4</span><b>口头裁决</b><span>按编号通过/修改/合并/驳回/解冲突</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">5</span><b>生效回执</b><span>告知 ID、版本、引用方式与撤销入口</span></div>
+  </div>
+  <ul>
+    <li><b>原则素材</b>：提炼为 1～N 张原则候选卡（一条原则一张）。</li>
+    <li><b>条款案例</b>：用户可同时给"条款原文 + 点评/修改示范"，提炼为案例条目；点评含可复用标准时额外生成规则候选并互相关联。</li>
+    <li><b>整篇合同案例</b>：先汇报切分结果；有审核意见/修订说明的，按定位配对为"问题条款+意见"案例；无意见的仅作语义比对案例，不生成风险结论。</li>
+    <li>候选较多时分批发卡（每批 ≤5 张），用户说"继续"发下一批，已处理状态在卡间复述。</li>
+  </ul>
+
+  <h3>8.2 流程二：单条款审核</h3>
+  <div class="flow">
+    <div class="step"><span class="n">1</span><b>粘贴条款</b><span>可带合同类型与上下文，类型自动识别可口头纠正</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">2</span><b>口头设定</b><span>"按乙方立场，严格点"或沿用默认</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">3</span><b>审核卡回复</b><span>规则判定+案例匹配，卡片含依据角标</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">4</span><b>多轮追问</b><span>换立场/问底线/展开依据/要替代文本</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">5</span><b>口头处置</b><span>"采纳/驳回/存成案例"</span></div>
+  </div>
+
+  <h3>8.3 流程三：整篇合同审核</h3>
+  <div class="flow">
+    <div class="step"><span class="n">1</span><b>上传合同</b><span>发文件 + 立场；agent 先回执确认意图为"审核"</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">2</span><b>确认要素</b><span>汇报主体/金额/期限等抽取结果，错误可口头改</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">3</span><b>流式审核</b><span>进度消息：逐条审+完整性+一致性</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">4</span><b>结论消息</b><span>总体结论先行，发现卡编号分组发出</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">5</span><b>处置与导出</b><span>按编号处置、追问；需要时"导出报告"</span></div>
+  </div>
+  <div class="callout key">
+    <span class="ct">整篇审核三类发现分区产出</span>
+    ①<b>条款风险发现</b>——必须有知识库依据；②<b>必备条款缺失</b>——依据知识库标记为"必备条款"的清单（是否内置中性清单见 Q2）；③<b>跨条款一致性问题</b>——属系统解析能力（主体名称、金额勾稽、日期逻辑、术语一致、争议方式冲突等），不依赖知识库依据，同样编号、可驳回。
+  </div>
+
+  <h3>8.4 流程四：反馈再学习闭环</h3>
+  <div class="flow">
+    <div class="step"><span class="n">1</span><b>口头纠错</b><span>"发现 2 误报，原因…""漏了…""建议改成…"</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">2</span><b>反馈回执</b><span>复述理解，发现状态更新</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">3</span><b>学习候选</b><span>聚合为新规则/修订候选，附本次条款案例</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">4</span><b>确认入库</b><span>同 8.1 裁决规则</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">5</span><b>口径改变</b><span>后续同类审核按新知识判定并主动说明变化</span></div>
+  </div>
+</section>
+
+<!-- ============ 9 ============ -->
+<section id="s9">
+  <h2><span class="num">9</span>功能需求</h2>
+  <p class="lead">本节为文档主体。每个模块按目的、触发、对话处理规则、回执与状态变更、异常组织。</p>
 
   <!-- FR-01 -->
-  <div class="fr" id="s8-1">
-    <div class="fr-head"><span class="fr-id">FR-01</span><b>素材接入与解析</b><span class="chip p0">P0</span></div>
+  <div class="fr" id="s9-1">
+    <div class="fr-head"><span class="fr-id">FR-01</span><b>对话接入与意图识别</b><span class="chip p0">P0</span></div>
     <div class="fr-body">
-      <p><b>目的：</b>让用户以最低成本把原则与案例（条款级/合同级）交给智能体，并得到可核对的结构化解析结果。</p>
-      <h4>触发与入口</h4>
+      <p><b>目的：</b>让用户用最自然的方式（发消息、发文件、说大白话）开始学习或审核，无需模式切换。</p>
+      <h4>触发与输入</h4>
       <ul>
-        <li>知识库页"添加素材"按钮；单条素材入口支持粘贴文本，文件入口支持 <code>.docx / .pdf / .txt</code>（P0）。</li>
-        <li>审核报告内"将本条款及处置存为案例"入口（走反馈闭环，见 FR-08）。</li>
+        <li>文本消息；附件消息，P0 支持 <code>.docx / .pdf（文字版）/ .txt</code>；可引用回复某条历史消息发起追问或纠错。</li>
       </ul>
       <h4>处理规则</h4>
       <ol>
-        <li>投喂时必填：<b>素材类型</b>（审核原则 / 条款案例 / 整篇合同案例）；案例类必填<b>立场</b>（甲方/乙方/中性）。选填：合同类型、标签、说明。</li>
-        <li>系统对整篇材料执行：正文提取 → 章节/条款切分（识别"第 X 条""1.1"等编号与标题）→ 条款类型自动归类（付款、交付验收、违约责任、保密、知识产权、不可抗力、争议解决、终止解除、责任限制、转让、自动续约等，类型清单可由用户扩展）。</li>
-        <li>整篇合同案例允许用户一并提供<b>审核意见/修订说明</b>（文本或修订版文件）；系统尝试将意见定位到对应条款段落，定位不准时由用户拖拽配对。</li>
-        <li>解析结果以"原文 + 切分边界 + 归类标签"预览呈现，用户可：合并/拆分段落、调整边界、修改条款类型。<b>用户修正后的切分结果作为提炼输入。</b></li>
-        <li>单文件大小、篇幅上限及超限处理策略 <span class="chip info">TBD</span>（P0 至少支持 50 页以内合同；超长合同提示分批）。</li>
+        <li>按 §5.1 识别五类意图（投喂/审核/管理/追问/反馈）；识别置信不足时按"一句话+选项"确认，默认不替用户决定。</li>
+        <li>文件先做可解析性预检（加密、损坏、无文字层、格式不支持），不通过即在同一会话明确回复原因与替代办法，不产生后续脏流程。</li>
+        <li>识别到长任务（整篇解析/审核）立即回"已收到"回执，再进入处理，避免用户等待无响应。</li>
+        <li>引用回复或"第 X 条/发现 X"这类指代，智能体需在当前会话上下文中解析到具体卡片；解析不到时反问确认，不猜。</li>
       </ol>
-      <h4>结果与状态变更</h4>
-      <p>素材生成记录并进入状态机（§6.3）：已上传 → 解析中 → 待提炼（成功）或解析失败。解析成功后进入 FR-02。</p>
       <h4>异常与边界</h4>
       <table>
-        <tr><th>情形</th><th>产品行为</th></tr>
-        <tr><td>加密/损坏文件、格式无法识别</td><td>明确提示原因，不计入有效素材；允许重新上传</td></tr>
-        <tr><td>扫描版 PDF / 图片型文件（无文字层）</td><td>P0 提示"暂不支持扫描件，OCR 能力规划中（P1）"，不得用乱码内容继续提炼</td></tr>
-        <tr><td>切分或归类明显错误</td><td>全部可手工修正；自动归类结果以"建议"样式呈现，不假装确定</td></tr>
-        <tr><td>重复上传同一文件</td><td>按文件特征提示"疑似重复素材"，由用户决定是否继续</td></tr>
+        <tr><th>情形</th><th>智能体回复行为</th></tr>
+        <tr><td>扫描件/图片型 PDF</td><td>"这份 PDF 是扫描件，读不出文字，P0 暂不支持；可发 Word/文字版 PDF"（不得用乱码继续）</td></tr>
+        <tr><td>意图歧义</td><td>一句话两选项确认；用户也可直接纠正："学"或"审"</td></tr>
+        <tr><td>文件超限/超长篇幅</td><td>告知上限（P0 至少 50 页，具体值 TBD）并建议拆分；不静默截断</td></tr>
+        <tr><td>指代无法解析</td><td>列出最近可选项请用户指认</td></tr>
       </table>
     </div>
   </div>
 
   <!-- FR-02 -->
-  <div class="fr" id="s8-2">
-    <div class="fr-head"><span class="fr-id">FR-02</span><b>知识提炼与确认入库</b><span class="chip p0">P0</span></div>
+  <div class="fr" id="s9-2">
+    <div class="fr-head"><span class="fr-id">FR-02</span><b>素材学习与对话确认</b><span class="chip p0">P0</span></div>
     <div class="fr-body">
-      <p><b>目的：</b>把非结构化素材转成三层知识条目，并通过人工确认保证每条生效知识可信、可改、可停用。</p>
-      <h4>触发</h4>
-      <p>素材解析完成（FR-01）或反馈生成学习候选（FR-08）后自动进入。</p>
+      <p><b>目的：</b>把对话投喂的非结构化材料转成三层知识条目，并在对话内完成人工确认。</p>
       <h4>处理规则</h4>
       <ol>
-        <li>系统按素材类型提炼候选卡片：原则→原则条目；案例→案例条目（并可从点评中追加规则条目候选）；审核指引→规则条目候选。候选字段遵循 §6.2 结构，字段缺失时留空标注"待补充"，<b>不得编造数值阈值或来源</b>。</li>
-        <li>每张候选卡展示<b>来源锚点</b>：可展开查看素材原文对应段落。</li>
-        <li><b>去重：</b>候选与已生效/候选条目语义相似度高时标"疑似重复"，并排展示差异，提供"合并"操作；合并后保留全部来源锚点与正反例。</li>
-        <li><b>冲突检测：</b>同一条款类型 + 同一立场下，判定条件互相矛盾（如阈值相反、立场结论相反）时标记"冲突待裁决"，<b>冲突条目不允许直接生效</b>；用户选择以哪条为准后，被取代条目转为"已停用（被取代）"并保留版本链；原则层条目可设优先级作为裁决参考。</li>
-        <li>用户对每张卡可：通过、编辑后通过、合并、驳回（留痕）。允许批量通过无冲突候选，但冲突卡必须逐张裁决。</li>
+        <li><b>投喂信息：</b>案例类需明确立场；用户未说时智能体补问一次。素材类型可由用户声明（"这是原则"），未声明时按内容推断并在解析回执中说明、允许纠正。</li>
+        <li><b>解析回执消息：</b>正文提取后汇报——识别到 N 个条款、条款类型归类列表、意见配对情况（整篇案例）；用户可口头纠正："第 7 条应该是保密""把 5.2 和 5.3 合并看"。修正后的结果作为提炼输入。</li>
+        <li><b>候选卡片：</b>按素材类型提炼：原则→原则卡；指引→规则卡；案例→案例卡（点评含可复用标准时附规则卡）。字段遵循 §7.2，缺失字段标"待补充"，<b>不得编造阈值与来源</b>；每卡展示来源锚点摘要（文件名+章节+原文摘录一句话）。</li>
+        <li><b>去重：</b>与已生效/候选条目语义高度相似时卡顶标"疑似重复 ↔ R-XXX"，并排差异摘要，提供"合并"指令；合并保留全部来源。</li>
+        <li><b>冲突：</b>同类型同立场下判定互斥的标"冲突待裁决"，<b>冲突卡不允许通过</b>；用户说"以新的为准/以 R-XXX 为准"完成裁决，被取代条目转"已停用（被取代）"并留版本链；原则优先级可作智能体推荐理由，不替用户决定。</li>
+        <li><b>对话操作指令（纯文字必须全部可达）：</b>"确认/通过""候选 X 改成：…""X、Y 合并""驳回 X，原因…""全部通过（冲突项除外）""继续"。快捷点选等同指令。</li>
       </ol>
-      <h4>结果与状态变更</h4>
-      <p>通过的条目：候选 → 已生效（v1），立即进入检索与审核引用范围；素材状态在其全部候选处置完成后变为"已入库"或"已忽略"。每条生效条目必须完整保留：确认人、确认时间、来源素材与原文锚点。</p>
+      <h4>回执与状态变更</h4>
+      <p>每确认一张：回执"R-XXX v1 已生效，可在审核中引用（回复'撤销'回退）"；全部处置完成后素材转"已入库/已忽略"，并汇总本批生效条目数。</p>
       <div class="callout danger">
         <span class="ct">硬性信任规则</span>
-        ①候选不自动生效；②生效条目的判定标准不因新投喂被静默改写，一切修订产生新版本；③系统生成内容与用户填写内容在编辑界面视觉可区分（如 AI 生成字段有标记），确认责任归用户。
+        ①候选不自动生效；②生效条目不被新投喂静默改写，修订必生新版本；③AI 生成字段与用户修改在卡片中视觉可区分，确认责任归用户。
       </div>
     </div>
   </div>
 
   <!-- FR-03 -->
-  <div class="fr" id="s8-3">
-    <div class="fr-head"><span class="fr-id">FR-03</span><b>知识库治理</b><span class="chip p0">P0</span></div>
+  <div class="fr" id="s9-3">
+    <div class="fr-head"><span class="fr-id">FR-03</span><b>对话式知识库治理</b><span class="chip p0">P0</span></div>
     <div class="fr-body">
-      <p><b>目的：</b>让用户始终掌握"智能体到底知道什么"，并可随时纠错、停用、追溯。</p>
-      <h4>功能规则</h4>
-      <ul>
-        <li><b>检索浏览：</b>支持关键词与语义自然语言搜索；可按知识类别（原则/规则/案例）、条款类型、合同类型、立场、风险等级、标签、状态组合过滤。</li>
-        <li><b>条目详情：</b>完整字段、来源锚点（点击跳转素材原文位置）、版本历史（版本间字段级差异对比）、近 90 天被审核引用次数与关联报告入口、关联反馈记录。</li>
-        <li><b>编辑与版本：</b>编辑已生效条目保存为新版本（vN+1），旧版本归档、可查看、可一键回滚；修改"判定条件/立场/风险等级"时二次确认并要求填写变更说明。</li>
-        <li><b>停用/启用：</b>停用后不参与新审核，但历史报告通过版本快照仍可展示其内容；停用需填写原因。</li>
-        <li><b>覆盖统计（P0）：</b>按条款类型展示各类条目数量与正反例数量，帮助发现知识盲区；命中率/误报率等质量看板列入 P1。</li>
-        <li><b>导出：</b>P0 支持知识库条目导出为结构化文件（CSV/Excel），保障资产可携带。</li>
-      </ul>
+      <p><b>目的：</b>不建任何管理页面，用户仅通过对话掌握和管理"智能体知道什么"。</p>
+      <table>
+        <tr><th style="width:130px">管理诉求</th><th>用户说法（示例）</th><th>智能体产出</th></tr>
+        <tr><td>自然语言检索</td><td>"库里关于违约金的规则有哪些""乙方立场下管辖条款怎么说"</td><td>条目列表消息：ID、名称、版本、状态、一句话摘要；可点编号要详情</td></tr>
+        <tr><td>查看详情/来源</td><td>"R-PAY-014 详情""它的来源是什么"</td><td>完整字段 + 来源原文摘录；近 90 天引用次数与关联审核记录</td></tr>
+        <tr><td>修订</td><td>"R-014 的上限改成 10%""把违约金规则的建议文本换成：…"</td><td>复述变更 → 确认 → 生效 vN+1，旧版归档，说明差异</td></tr>
+        <tr><td>停用/启用</td><td>"停用 R-014，原因…""恢复它"</td><td>确认后执行；停用不参与新审核，历史报告可溯源</td></tr>
+        <tr><td>版本回滚</td><td>"R-014 回到 v2"</td><td>展示 v2 与当前差异 → 确认 → 生成回滚版本</td></tr>
+        <tr><td>覆盖盘点</td><td>"知识库覆盖了哪些条款类型""哪类还没有规则"</td><td>条款类型 × 条目/正反例数量分布；点出盲区</td></tr>
+        <tr><td>导出资产</td><td>"把知识库导出给我"</td><td>确认范围后发送结构化文件（CSV/Excel）</td></tr>
+        <tr><td>操作留痕查询</td><td>"最近谁改了规则""上周知识库有哪些变更"</td><td>变更记录列表（操作、前后值摘要、时间）</td></tr>
+      </table>
     </div>
   </div>
 
   <!-- FR-04 -->
-  <div class="fr" id="s8-4">
-    <div class="fr-head"><span class="fr-id">FR-04</span><b>审核配置</b><span class="chip p0">P0</span></div>
+  <div class="fr" id="s9-4">
+    <div class="fr-head"><span class="fr-id">FR-04</span><b>审核口径配置（对话设定）</b><span class="chip p0">P0</span></div>
     <div class="fr-body">
-      <p><b>目的：</b>同一合同在不同立场与口径下输出不同、可预期的审核意见。</p>
       <table>
         <tr><th style="width:120px">配置项</th><th>取值与行为</th></tr>
-        <tr><td>我方立场</td><td>甲方 / 乙方。审核仅匹配与该立场一致及"双方通用"的规则；案例按立场相关性排序。<b>必选。</b></td></tr>
-        <tr><td>合同类型</td><td>系统按文本自动推荐（附置信提示），用户可改；用于过滤适用规则与选择必备条款清单。</td></tr>
-        <tr><td>严格度</td><td><b>宽松</b>：仅展示高风险 + 高置信中风险；<b>标准（默认）</b>：高/中风险及以上展示，低风险折叠；<b>严格</b>：高/中/低全量展示，含低置信发现（显著标注）。仅影响展示与提示策略，<b>不改变风险等级本身</b>。</td></tr>
-        <tr><td>规则适用范围</td><td>全部已生效条目（默认）/ 仅选定标签或条款类型范围。</td></tr>
-        <tr><td>默认配置</td><td>用户可保存一套默认配置；每次审核仍可临时修改。</td></tr>
+        <tr><td>我方立场</td><td>甲方/乙方。仅匹配该立场及"双方通用"规则，案例按立场相关性排序。<b>必选</b>：用户说"帮我审"但未给立场时，智能体在审核前补问一次；用户说"以后默认乙方"则记住。</td></tr>
+        <tr><td>合同类型</td><td>自动推荐并告知，可口头纠正；用于过滤规则与缺失检查清单。</td></tr>
+        <tr><td>严格度</td><td><b>宽松</b>：仅高风险 + 高置信中风险；<b>标准（默认）</b>：高/中展示，低风险折叠为"另有 N 条低风险，回复'展开'查看"；<b>严格</b>：全量含低置信发现并显著标注。严格度只影响展示，不改风险等级。</td></tr>
+        <tr><td>规则范围</td><td>"只用买卖合同的规则审"等口头限定；默认全部已生效条目。</td></tr>
+        <tr><td>两层生效</td><td>"默认配置"跨会话记忆（"以后都按乙方、标准"）；单次说法仅覆盖当前审核（"这份按甲方看"）；每次审核开头复述本次生效配置供纠正。</td></tr>
       </table>
     </div>
   </div>
 
   <!-- FR-05 -->
-  <div class="fr" id="s8-5">
-    <div class="fr-head"><span class="fr-id">FR-05</span><b>单条款审核</b><span class="chip p0">P0</span></div>
+  <div class="fr" id="s9-5">
+    <div class="fr-head"><span class="fr-id">FR-05</span><b>单条款审核对话</b><span class="chip p0">P0</span></div>
     <div class="fr-body">
-      <p><b>目的：</b>对争议中的单个条款秒级给出有依据的立场化意见。</p>
-      <h4>输入</h4>
-      <ul>
-        <li>必填：条款文本。选填：条款类型（默认自动识别，可改）、合同类型、相关上下文条款（粘贴 1～N 段，辅助判定勾稽关系）。</li>
-      </ul>
       <h4>处理规则</h4>
       <ol>
-        <li>条款类型识别 → 在审核配置范围内检索：先做规则条目结构化判定（关键词模式 + 阈值换算与比较），再做案例条目语义相似度匹配与原则层兜底。</li>
-        <li>每条命中输出一条发现，字段遵循 §9.1；阈值类规则展示计算过程（如"日千分之一 ≈ 年化 36.5%，超 LPR 4 倍上限"）。</li>
-        <li>无规则命中但有相似案例时，以案例佐证出意见，置信度不高于"中"。</li>
-        <li><b>未覆盖处理：</b>无任何生效知识相关时，不出具风险结论；仅输出该条款的客观解读与"知识库未覆盖该类风险，建议人工判断"声明，并提供"一键投喂为案例"入口。</li>
-        <li><b>多轮追问：</b>用户可追问（如"换成乙方立场呢""如果对方不接受改法，让步底线是什么"）。追问回答同样受依据约束——无依据时显式说明，不得编造企业标准；追问中产生的有效结论可一键存为反馈/案例。</li>
+        <li>识别条款类型 → 在当前配置范围内：规则结构化判定（模式 + 阈值换算比较）→ 案例语义匹配 → 原则兜底。</li>
+        <li>阈值命中要展示计算过程（如"日千分之一 ≈ 年化 36.5%，超 LPR 4 倍上限"）。</li>
+        <li>无规则命中但有相似案例：以案例佐证出意见，置信度不超过"中"。</li>
+        <li><b>未覆盖：</b>无相关生效知识时不做风险定性；回复客观解读 + "知识库未覆盖该类风险，建议人工判断"，并附"要我把这条存成案例吗？"投喂入口。</li>
+        <li><b>多轮追问：</b>"换成乙方立场呢""让步底线是什么""给两个语气强弱不同的版本"——追问回答同样受依据约束，无依据显式说明；追问中形成的有效结论可一句话存为反馈/案例。</li>
       </ol>
-      <h4>结果</h4>
-      <p>输出单条款审核卡（示例见 §9.2）：条款解读 → 发现列表（等级排序）→ 未覆盖/提示区 → 建议修改文本（可复制）。可保存为审核记录。</p>
+      <h4>产出</h4>
+      <p>单条审核发现卡片消息（或无风险时的简短结论）：条款解读 → 发现（等级排序）→ 未覆盖提示 → 可复制的建议文本；附快捷处置（采纳/驳回/存案例）与"展开依据"。</p>
     </div>
   </div>
 
   <!-- FR-06 -->
-  <div class="fr" id="s8-6">
-    <div class="fr-head"><span class="fr-id">FR-06</span><b>整篇合同审核</b><span class="chip p0">P0</span></div>
+  <div class="fr" id="s9-6">
+    <div class="fr-head"><span class="fr-id">FR-06</span><b>整篇合同审核对话</b><span class="chip p0">P0</span></div>
     <div class="fr-body">
-      <p><b>目的：</b>对整篇合同做全面、有顺序、可汇总的风险排查，产出可直接对内/对外使用的审核报告。</p>
       <h4>处理规则</h4>
       <ol>
-        <li><b>解析与元信息抽取：</b>切分条款并抽取合同主体（各方名称）、合同类型、金额与币种、关键期限（签署/生效/交付/付款/质保/到期）、签署日期；抽取结果在审核前页面请用户确认，错误可改。</li>
-        <li><b>逐条款审核：</b>对每个条款执行 FR-05 同等判定逻辑；发现携带章节号、条款标题与原文摘录定位。</li>
-        <li><b>必备条款完整性检查：</b>按合同类型对应的必备条款清单，检查缺失或过于简略（低于可审阈值）的条款，输出"缺失类发现"并附知识库中该类条款的标准示范文本（若有）。</li>
-        <li><b>跨条款一致性检查：</b>至少覆盖：
-          <ul>
-            <li>主体名称全文是否统一（与签章主体、开户行信息是否一致）；</li>
-            <li>金额勾稽：分项金额之和与总价、大小写金额、币种、税率口径；</li>
-            <li>时间逻辑：生效、交付、验收、付款节点、质保期、到期/续约日期是否存在矛盾或倒挂；</li>
-            <li>定义术语前后一致（如"工作日/日""保密期限"定义与使用）；</li>
-            <li>争议解决：诉讼与仲裁是否同时约定、管辖法院是否唯一明确；</li>
-            <li>责任限制、违约金、赔偿条款之间是否互相冲突；自动续约与终止条款是否矛盾。</li>
-          </ul>
-        </li>
-        <li><b>排序与汇总：</b>发现按风险等级（高→中→低→提示）排序，同等级按章节顺序；高风险进入报告摘要；系统生成总体风险态势与处理建议（见下）。</li>
-        <li><b>处理建议分级（辅助）：</b>可签署 / 建议修改后签署 / 建议重大修改后再谈。判定依据为发现的等级分布与是否存在"红线类高风险"（红线由原则层条目标记）。建议旁固定展示"辅助意见，需人工终审"。</li>
-        <li>长合同审核分批流式输出：已完成条款先展示，整体进度（已审条款/总条款）可见；用户可中途取消，已完成部分保留为草稿。</li>
+        <li><b>解析与要素确认：</b>切分条款，抽取合同主体、类型、金额币种、关键期限、签署日；先发一条"要素确认消息"请用户口头纠错，确认（或用户说"直接审"）后开始。</li>
+        <li><b>进度汇报：</b>通过编辑进度消息汇报"已审 x/N 条 → 完整性检查 → 一致性检查"；用户随时可说"停止"，已完成部分保留。</li>
+        <li><b>逐条款审核：</b>每条按 FR-05 同逻辑判定；发现携带章节号、条款标题、原文摘录。</li>
+        <li><b>必备条款完整性：</b>按合同类型清单查缺失/过于简略条款，缺失发现附库内示范文本（若有）。</li>
+        <li><b>跨条款一致性至少覆盖：</b>主体名称（含签章/开户行）；金额勾稽（分项与总价、大小写、币种税率）；时间逻辑（生效/交付/验收/付款/质保/续约倒挂）；定义术语一致；争议解决（诉裁并存、管辖唯一性）；责任限制/违约金/赔偿互相冲突；自动续约与终止矛盾。</li>
+        <li><b>结论与排序：</b>先发总体结论消息：处理建议（可签署/修改后签署/重大修改后再谈）+ 数量统计 + 高风险一句话清单；再分批发发现卡（按高→中→低→提示排序、同等级按章节，统一编号）；缺失与一致性分区编号。低风险默认折叠计数，回复"展开低风险"放出。</li>
+        <li>处理建议旁固定带"辅助意见，需人工终审"。</li>
       </ol>
-      <h4>异常与边界</h4>
+      <h4>异常</h4>
       <ul>
-        <li>解析失败/扫描件：同 FR-01 异常处理，不进入审核。</li>
-        <li>部分条款审核超时或失败：该条款标记"审核未完成，可重试"，不阻塞其余条款与报告生成。</li>
-        <li>知识库为空：按 FR-09 限制输出。</li>
+        <li>部分条款审核失败：该条标"本条未完成，回复'重试 x'重审"，不阻塞整体产出。</li>
+        <li>空库：按 FR-09 限制输出。</li>
       </ul>
     </div>
   </div>
 
   <!-- FR-07 -->
-  <div class="fr" id="s8-7">
-    <div class="fr-head"><span class="fr-id">FR-07</span><b>审核报告</b><span class="chip p0">P0</span></div>
+  <div class="fr" id="s9-7">
+    <div class="fr-head"><span class="fr-id">FR-07</span><b>结果产出、溯源与报告导出</b><span class="chip p0">P0</span></div>
     <div class="fr-body">
-      <p><b>目的：</b>承载审核结论、依据与处置过程；可导出、可复现、可审计。</p>
-      <h4>报告结构（固定分区）</h4>
+      <h4>发现字段规范（Finding）</h4>
+      <table>
+        <tr><th style="width:110px">字段</th><th>要求</th></tr>
+        <tr><td>对话内编号</td><td>整篇统一编号（发现 1…N），供用户口头引用处置</td></tr>
+        <tr><td>定位</td><td>章节号 + 条款标题 + 原文摘录</td></tr>
+        <tr><td>类别</td><td>条款风险 / 必备条款缺失 / 跨条款一致性 / 待确认提示</td></tr>
+        <tr><td>风险等级</td><td>高/中/低/提示（定义见 §11.1）</td></tr>
+        <tr><td>问题说明</td><td>"条款现状 → 对我方具体不利后果"两段式，不写空话</td></tr>
+        <tr><td>依据引用</td><td>≥1 条生效条目（角标编号 + ID/版本）或系统检查项；"展开依据 X"可取全文与来源原文</td></tr>
+        <tr><td>建议文本</td><td>可直接替换的表述（有则必给）；让步底线仅当原则/规则有记载时给出</td></tr>
+        <tr><td>置信度</td><td>高/中/低 + 一句判定理由（命中阈值/语义相似/推断关联）</td></tr>
+      </table>
+      <h4>对话产出结构（固定顺序）</h4>
       <ol>
-        <li><b>报告头：</b>合同名称、各方主体、合同类型、我方立场、严格度、审核时间、审核人、<b>知识库版本快照号与适用条目范围</b>。</li>
-        <li><b>总体结论：</b>处理建议分级 + 高/中/低/提示数量统计 + 高风险清单（一句话标题 + 章节定位）。</li>
-        <li><b>逐条风险发现：</b>按排序规则呈现，每条可展开依据与建议。</li>
-        <li><b>必备条款缺失：</b>独立分区。</li>
-        <li><b>跨条款一致性问题：</b>独立分区，标注涉及的两个或多个章节。</li>
-        <li><b>未覆盖声明：</b>列出因知识库无相关条目而未作风险判定的条款类型，提醒人工复核。</li>
-        <li><b>附录：</b>本报告引用的全部知识条目清单（名称、ID、版本）。</li>
+        <li>总体结论消息（建议分级 + 统计 + 高风险清单 + 本次配置与快照号）；</li>
+        <li>高/中风险发现卡（分批，每批 ≤5）；</li>
+        <li>缺失分区、一致性分区；</li>
+        <li>折叠的低风险/提示（按需展开）；</li>
+        <li>未覆盖声明：哪些条款类型无知识覆盖；</li>
+        <li>依据清单消息：编号 → 条目名称/ID/版本；</li>
+        <li>收尾：快捷处置提示 + "需要导出 Word/PDF 说一声"。</li>
       </ol>
-      <h4>处置操作（在线）</h4>
-      <p>每条发现可：<b>采纳</b>、<b>已知悉接受风险</b>（需选填理由）、<b>驳回</b>（误报，必填原因）、<b>按建议修改</b>（可编辑建议文本后确认）；跳转依据条目详情；复制建议文本。所有处置写入发现状态并汇总进反馈（FR-08）。</p>
-      <h4>导出与留痕</h4>
+      <h4>导出（仅按需）</h4>
       <ul>
-        <li>支持导出 Word（.docx）与 PDF；导出内容包含处置结果列（可选择"仅未解决问题"视图导出对外版本）。</li>
-        <li>报告永久绑定<b>知识库版本快照</b>：日后打开报告，引用条目展示出审时的版本内容，并提示该条目后续是否更新（可对比新旧版本）。</li>
-        <li>报告不可静默重算：重新审核生成新报告，不覆盖旧报告。</li>
+        <li>用户明确要求时才产出文件；导出前确认口径（全量 / 仅未解决问题）；Word/PDF 内容含处置结果列。</li>
+        <li>报告绑定<b>知识库版本快照</b>：日后在对话中提起该报告，引用条目展示出审时版本，并提示条目后续是否更新、可对比。</li>
+        <li>重新审核生成新任务新结果，不静默覆盖历史消息中的旧结果。</li>
       </ul>
     </div>
   </div>
 
   <!-- FR-08 -->
-  <div class="fr" id="s8-8">
-    <div class="fr-head"><span class="fr-id">FR-08</span><b>反馈与持续学习</b><span class="chip p0">P0</span></div>
+  <div class="fr" id="s9-8">
+    <div class="fr-head"><span class="fr-id">FR-08</span><b>口头反馈与持续学习</b><span class="chip p0">P0</span></div>
     <div class="fr-body">
-      <p><b>目的：</b>把每次审核中的人工纠错转化为知识库资产，让智能体"越用越懂公司口径"。</p>
-      <h4>反馈类型与采集</h4>
       <table>
-        <tr><th>类型</th><th>采集方式</th><th>必填内容</th></tr>
-        <tr><td>误报驳回</td><td>发现上点"驳回"</td><td>驳回原因（选择常见原因 + 自由说明）</td></tr>
-        <tr><td>漏报补报</td><td>报告页"添加风险"：选中条款、手工填写风险说明与建议</td><td>风险点、建议修改文本（或"仅需提示"）</td></tr>
-        <tr><td>建议被修正</td><td>用户编辑了系统建议文本后确认"按修改后建议处理"</td><td>修改后文本（系统自动留存前后版本）</td></tr>
-        <tr><td>结论不认可</td><td>对风险等级/判定结论点"不认可"</td><td>期望的等级或结论与理由</td></tr>
+        <tr><th>反馈类型</th><th>用户说法（示例）</th><th>必填/采集</th></tr>
+        <tr><td>误报驳回</td><td>"发现 3 误报""这条没问题，驳回"</td><td>原因（快捷常见原因或自由说明）</td></tr>
+        <tr><td>漏报补报</td><td>"漏了第 11 条数据合规，这种以后要提示，风险是…"</td><td>风险说明 + 建议（或"仅提示"）</td></tr>
+        <tr><td>建议被修正</td><td>"建议改成：…（直接给新文本）"</td><td>自动留存前后文本</td></tr>
+        <tr><td>结论不认可</td><td>"这条不该是高风险，最多低"</td><td>期望等级/结论与理由</td></tr>
       </table>
       <h4>处理规则</h4>
       <ol>
-        <li>报告完成时（或用户主动点"沉淀本次反馈"），系统将反馈聚合为<b>学习候选</b>：漏报/修正 → 新规则条目或案例条目候选；驳回 → 现规则条目的修订候选（调整判定条件/缩小适用范围）或反例案例候选；并自动附带本次合同条款片段作为案例素材（合同名称等敏感字段可脱敏，脱敏规则见开放问题 Q5）。</li>
-        <li>学习候选进入 FR-02 同一套确认/去重/冲突裁决流程，<b>人工确认后才生效</b>。</li>
-        <li>同一条规则被不同合同反复驳回（频次阈值可配）时，在该规则详情页与知识库首页提示"近期误报集中，建议复核"，但不自动改动。</li>
-        <li>用户可查看单条知识条目"因反馈而更新"的完整脉络。</li>
+        <li>智能体先回执复述理解（"已记录：发现 3 驳回，原因 X"），更新发现处置状态；<b>记录反馈本身不改知识库</b>。</li>
+        <li>用户说"沉淀/记下来/以后注意"或任务收尾时，聚合反馈为学习候选：漏报/修正→新规则或案例卡；驳回→现规则修订卡（收窄条件）或反例卡；自动附本次条款片段（脱敏规则 Q5）。</li>
+        <li>候选走 FR-02 确认/去重/冲突流程，确认后生效。</li>
+        <li>同规则跨合同被反复驳回（频次可配），智能体在对话中主动提示："R-014 最近 5 次审核被驳回 3 次，要不要我建议修订？"不自动改动。</li>
       </ol>
     </div>
   </div>
 
   <!-- FR-09 -->
-  <div class="fr" id="s8-9">
-    <div class="fr-head"><span class="fr-id">FR-09</span><b>冷启动与空库</b><span class="chip p0">P0</span></div>
+  <div class="fr" id="s9-9">
+    <div class="fr-head"><span class="fr-id">FR-09</span><b>冷启动与空库对话</b><span class="chip p0">P0</span></div>
     <div class="fr-body">
       <ul>
-        <li><b>首次引导（3 步）：</b>①上传/粘贴 1 份审核原则；②上传 1～2 个典型案例（条款或历史合同）；③用一份示例合同试审并查看依据跳转。每步可跳过，引导可随时重新打开。</li>
-        <li><b>空库审核限制（关键）：</b>无任何已生效条目时，整篇审核仅提供：条款切分与元信息抽取、必备条款缺失提示（若有内置清单，见 Q2）、跨条款一致性检查；报告以醒目样式声明"当前知识库为空，以下内容不含企业风险判定"。<b>系统不得在无知识库依据时输出风险定论或修改口径</b>，避免用户误以为通用大模型意见即公司标准。</li>
-        <li><b>部分覆盖：</b>某条款类型无知识覆盖时按 FR-05"未覆盖处理"执行，并在报告"未覆盖声明"分区汇总。</li>
+        <li><b>首次对话引导：</b>智能体主动发一条欢迎消息，用 3 个可点击/可回复的步骤引导：①发一份审核原则；②发 1～2 个典型案例；③可随时发一份合同试审。每步可跳过，用户说"怎么用"可随时重现引导。</li>
+        <li><b>空库审核限制：</b>无生效条目时收到合同，智能体明确回复"知识库还是空的，我只能做条款切分、要素抽取、必备条款缺失（中性清单）和前后矛盾检查，<b>给不出基于贵司标准的风险结论</b>"，并在结果中固定该声明；<b>禁止用通用经验冒充公司口径输出风险定论</b>。</li>
+        <li><b>部分覆盖：</b>某类型无知识覆盖时按 FR-05 未覆盖处理，在未覆盖声明区汇总。</li>
         <li>是否提供官方/行业内置规则模板包帮助冷启动：<span class="chip info">TBD · Q2</span>。</li>
       </ul>
     </div>
   </div>
 </section>
 
-<!-- ============ 9 ============ -->
-<section id="s9">
-  <h2><span class="num">9</span>审核意见输出规范（示例）</h2>
+<!-- ============ 10 ============ -->
+<section id="s10">
+  <h2><span class="num">10</span>对话实录示例</h2>
+  <p class="lead">以下为产品行为脚本（transcript），用于评审对话口径、消息结构与措辞；卡片为消息形态示意，非视觉终稿。</p>
 
-  <h3>9.1 发现（Finding）字段规范</h3>
-  <table>
-    <tr><th style="width:120px">字段</th><th>要求</th></tr>
-    <tr><td>定位</td><td>章节号 + 条款标题 + 原文摘录（整篇）；单条款审核直接引用原文关键句</td></tr>
-    <tr><td>发现类别</td><td>条款风险 / 必备条款缺失 / 跨条款一致性 / 待确认提示</td></tr>
-    <tr><td>风险等级</td><td>高 / 中 / 低 / 提示（定义见 §10.1）</td></tr>
-    <tr><td>问题说明</td><td>用"条款现状 → 对我方的具体不利后果"两段式表述，不使用空话</td></tr>
-    <tr><td>依据引用</td><td>≥1 条已生效知识条目（名称+ID+版本）或系统检查项（一致性类）；可点击跳转；无依据的内容只能进"待确认提示"</td></tr>
-    <tr><td>建议修改文本</td><td>可直接替换的条款表述（有则必给）；必要时给"谈判让步底线"（仅当原则/规则中有记载）</td></tr>
-    <tr><td>置信度</td><td>高 / 中 / 低（定义见 §10.2），并给出一句判定理由（直接命中阈值 / 语义相似 / 推断关联）</td></tr>
-  </table>
-
-  <h3>9.2 输出示例（界面形态示意，非最终视觉稿）</h3>
-  <div class="mock">
-    <div class="mock-bar"><span>整篇合同审核报告 ·《XX 采购合同（对方草案）》</span><span>立场：甲方（采购方） · 标准 · KB-SNAPSHOT #217</span></div>
-    <div class="mock-body">
-      <div class="verdict warn">⚠ 总体建议：修改后签署 ｜ 发现 高 2 · 中 4 · 低 3 · 提示 2　<span style="font-weight:400;font-size:12.5px">（辅助意见，需人工终审）</span></div>
-      <div class="score">
-        <div class="stat"><div class="v r">2</div><div class="k">高风险</div></div>
-        <div class="stat"><div class="v a">4</div><div class="k">中风险</div></div>
-        <div class="stat"><div class="v b">3</div><div class="k">低风险</div></div>
-        <div class="stat"><div class="v g">2</div><div class="k">缺失条款</div></div>
+  <h3>10.1 学习投喂</h3>
+  <div class="chat">
+    <div class="msg user">
+      <div class="av">我</div>
+      <div class="bubble">
+        <div class="attach"><span class="fi">📄</span><b>公司合同审核指引v3.docx</b><span class="muted">（2.1 MB）</span></div>
+        <p>这是我们公司法务的审核原则和标准，你学习一下。</p>
       </div>
-
-      <div class="finding">
-        <div class="f-head">
-          <span class="chip high">高风险</span><b>逾期付款违约金比例畸高且无上限</b>
-          <span class="chip conf-h">置信度：高 · 命中阈值规则</span>
-          <span class="loc">定位：第 8.2 条「违约责任」</span>
+    </div>
+    <div class="msg bot">
+      <div class="av">AI</div>
+      <div class="bubble">
+        <div class="who">合同审核助手</div>
+        <p>收到，已解析《公司合同审核指引v3.docx》。识别为<b>审核原则/规则类素材</b>，共切出 18 个小节，其中 6 节是原则表述、9 节可提炼为审核规则。</p>
+        <p class="muted">归类我先按内容标了，如不对直接说（例："第 4 节应该是违约责任"）。下面开始发提炼候选，每条你可以回复：确认 / 改成… / 驳回。</p>
+        <div class="kcand">
+          <div class="kch"><span>候选 1/5 · 原则条目</span><span>待确认</span></div>
+          <div class="kcb">
+            <table>
+              <tr><th>原则表述</th><td>我方作为供货方，不接受无限连带责任；担保须设上限且不超过合同总额</td></tr>
+              <tr><th>适用立场</th><td>乙方（供货方）</td></tr>
+              <tr><th>优先级</th><td>高（建议红线）</td></tr>
+            </table>
+            <div class="src">来源：指引 第 1.3 节"责任承担原则"，原文"……一律不接受无上限连带责任……"</div>
+            <div class="quick"><span class="q">✅ 确认</span><span class="q">✏️ 修改</span><span class="q">❌ 驳回</span></div>
+          </div>
         </div>
-        <div class="quote">原文："甲方逾期付款的，每逾期一日，应按逾期金额的千分之一向乙方支付违约金。"</div>
-        <p style="font-size:13.3px;margin:7px 0"><b>问题说明：</b>日千分之一折合年化约 36.5%，显著超过当前司法实践支持上限（一年期 LPR 的 4 倍）；且未约定违约金总额上限，逾期成本敞口不确定。</p>
-        <div class="basis">📎 依据：规则《逾期付款违约金上限审查》R-PAY-014（v3，已生效）· 原则《我方违约责任条款立场》P-002（v1）· 相似案例 2 例</div>
-        <div class="fix"><b>建议修改为：</b>"甲方逾期付款的，按逾期金额日万分之三向乙方支付违约金，违约金累计总额不超过逾期部分金额的 10%。"</div>
-        <div class="actions">
-          <span class="btn primary">采纳建议</span><span class="btn">复制修改文本</span>
-          <span class="btn">已知悉接受风险</span><span class="btn danger">驳回（误报）</span><span class="btn">查看依据</span>
+        <div class="kcand">
+          <div class="kch"><span>候选 2/5 · 规则条目</span><span class="chip high" style="background:var(--red-soft);color:var(--red)">与 R-PAY-014 冲突，待裁决</span></div>
+          <div class="kcb">
+            <table>
+              <tr><th>名称</th><td>逾期付款违约金上限审查</td></tr>
+              <tr><th>判定条件</th><td>年化 &gt; LPR 4 倍或总额 &gt; <b>20%</b> → 高风险</td></tr>
+              <tr><th>冲突说明</th><td>现有 R-PAY-014 v2 写的是总额上限 <b>10%</b>（来源：2025 年专项口径），本素材为 20%，两者互斥</td></tr>
+            </table>
+            <p class="muted">需要你裁决：以哪条为准？被取代的会停用并留档。</p>
+            <div class="quick"><span class="q">以新的 20% 为准</span><span class="q">以 R-014 的 10% 为准</span><span class="q">先都不生效</span></div>
+          </div>
         </div>
       </div>
-
-      <div class="finding mid">
-        <div class="f-head">
-          <span class="chip mid">中风险</span><b>验收期限与付款节点存在矛盾</b>
-          <span class="chip conf-m">置信度：中</span>
-          <span class="loc">定位：第 5.3 条 × 第 6.1 条（跨条款一致性）</span>
-        </div>
-        <p style="font-size:13.3px;margin:7px 0"><b>问题说明：</b>第 5.3 条约定验收期为到货后 30 日，第 6.1 条却约定"到货后 15 日内付全款"，付款义务先于验收完成，我方丧失以验收制约付款的抓手。</p>
-        <div class="basis">🔧 依据：系统一致性检查（时间逻辑：付款节点早于验收节点）；规则《付款与验收勾稽》R-PAY-022（v1）</div>
-        <div class="fix"><b>建议：</b>将付款节点调整为"验收合格后 15 日内支付"，或拆分为预付款 + 验收后尾款。</div>
-        <div class="actions"><span class="btn primary">采纳建议</span><span class="btn danger">驳回</span></div>
-      </div>
-
-      <div class="finding low">
-        <div class="f-head">
-          <span class="chip low">低风险</span><b>保密义务未约定保密期限</b>
-          <span class="chip conf-m">置信度：中</span><span class="loc">定位：第 9 条「保密」</span>
-        </div>
-        <p style="font-size:13.3px;margin:7px 0">建议补充"保密义务自合同生效起至相关信息公开之日止，且合同终止后仍持续 3 年"。</p>
-        <div class="basis">📎 依据：规则《保密条款必备要素》R-CONF-003（v2）</div>
-      </div>
-
-      <div class="finding" style="border-left-color:var(--green)">
-        <div class="f-head"><span class="chip low" style="background:var(--green-soft);color:var(--green)">必备条款缺失</span><b>未约定不可抗力条款</b><span class="loc">合同类型：买卖合同</span></div>
-        <p style="font-size:13.3px;margin:7px 0">知识库示范文本：<i>"因不可抗力导致一方不能履行的……应在 X 日内提供证明，双方协商减免责任或解除合同。"</i>（来自规则 R-FORCE-001 所附模板）</p>
-      </div>
-
-      <div class="finding" style="border-left-color:var(--grey)">
-        <div class="f-head"><span class="chip info">待确认提示</span><b>第 11 条「数据合规授权」知识库未覆盖</b></div>
-        <p style="font-size:13.3px;margin:7px 0">当前知识库无数据合规相关生效条目，该条款未作风险判定，建议人工复核；<u>可一键投喂该条款为案例</u>。</p>
+    </div>
+    <div class="msg user">
+      <div class="av">我</div>
+      <div class="bubble"><p>候选 1 确认。候选 2 以 10% 的 R-014 为准，新的驳回。其他 3 条都通过。</p></div>
+    </div>
+    <div class="msg bot">
+      <div class="av">AI</div>
+      <div class="bubble">
+        <p>已处理：原则 P-007 v1 生效；R-PAY-014 维持 v2 不变，候选 2 驳回留档；候选 3～5 已生效（R-CONF-009、R-TERM-011、R-IPR-006）。</p>
+        <p class="muted">本批共生效 4 条、驳回 1 条。回复"撤销"可回退本次操作；回复"看看违约金规则"可查看库内内容。</p>
       </div>
     </div>
   </div>
-  <p style="font-size:12.8px;color:var(--ink-3)">注：以上为产品行为示意，用于评审信息结构与措辞口径；最终 UI 以设计稿为准。</p>
-</section>
 
-<!-- ============ 10 ============ -->
-<section id="s10">
-  <h2><span class="num">10</span>共享规则与异常</h2>
+  <h3>10.2 单条款审核与追问</h3>
+  <div class="chat">
+    <div class="msg user">
+      <div class="av">我</div>
+      <div class="bubble">
+        <p>帮我看这条，我们是甲方采购方：</p>
+        <p class="muted">"乙方逾期交付的，每逾期一日按合同总价 1% 支付违约金，逾期超过 15 日的，甲方有权解除合同并要求乙方赔偿全部损失。"</p>
+      </div>
+    </div>
+    <div class="msg bot">
+      <div class="av">AI</div>
+      <div class="bubble">
+        <p>这条整体<b>对我方（甲方）有利，无高风险</b>。识别为违约责任条款，严格度=标准。有 1 个提示项：</p>
+        <div class="finding low">
+          <div class="f-head"><span class="chip low">提示</span><b>"全部损失"范围未界定，未来举证易生争议</b><span class="chip conf-m">置信度：中</span></div>
+          <div class="basis">依据 <span class="refnum">1</span> 规则 R-BREACH-008 v1（损失范围明确化）</div>
+          <div class="fix"><b>可优化为：</b>"……赔偿甲方因此遭受的全部直接损失，包括但不限于差价损失、替代采购费用及维权合理支出（律师费、诉讼费、保全费）。"</div>
+          <div class="quick"><span class="q">采纳</span><span class="q">展开依据 1</span><span class="q">驳回</span></div>
+        </div>
+        <p class="muted">另外，日 1% 逾期违约金是约束乙方的，按当前立场无需调降；若立场换成乙方则会判高风险。回复"展开依据 1"查看规则原文与来源。</p>
+      </div>
+    </div>
+    <div class="msg user"><div class="av">我</div><div class="bubble"><p>展开依据 1</p></div></div>
+    <div class="msg bot">
+      <div class="av">AI</div>
+      <div class="bubble">
+        <div class="refblock">
+          <b>[1] R-BREACH-008 v1 · 违约损失范围明确化（已生效）</b><br>
+          适用：买卖合同/通用 · 立场：双方通用 · 等级：低<br>
+          要点："全部损失"若无界定，诉讼中对间接损失是否可赔存在不确定性，建议列明直接损失范围与维权费用。<br>
+          来源：《公司合同审核指引v3》第 5.4 节；正例案例 2 条（回复"看案例"展开）。
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <h3>10.1 风险等级定义（全产品唯一定义）</h3>
-  <table>
-    <tr><th style="width:90px">等级</th><th>定义</th><th>典型情形</th><th>默认处置导向</th></tr>
-    <tr><td><span class="chip high">高</span></td><td>可能导致重大经济损失、重大法律责任或合同核心目的落空；触碰原则层红线</td><td>无限连带责任、畸高违约金无上限、核心义务无约束、争议管辖完全落空、排他/独家锁死</td><td>原则上必须修改，进报告摘要</td></tr>
-    <tr><td><span class="chip mid">中</span></td><td>权利义务明显失衡或显著增加我方成本/风险，但可通过谈判修正</td><td>付款条件苛刻、验收标准模糊、责任限制单向、知识产权归属不利</td><td>应当谈判修改</td></tr>
-    <tr><td><span class="chip low">低</span></td><td>表述不严谨、次要不利或存在隐患，不影响主要权利义务</td><td>保密期限缺失、通知地址不全、定义不规范</td><td>建议优化，标准模式下折叠</td></tr>
-    <tr><td><span class="chip info">提示</span></td><td>非风险定性：待确认事项、知识库未覆盖声明、客观信息提醒</td><td>空白待填项、无知识覆盖、元信息疑似有误</td><td>供人工知悉</td></tr>
-  </table>
+  <h3>10.3 整篇合同审核</h3>
+  <div class="chat">
+    <div class="msg user">
+      <div class="av">我</div>
+      <div class="bubble">
+        <div class="attach"><span class="fi">📄</span><b>XX采购合同_对方草案.pdf</b><span class="muted">（文字版，18 页）</span></div>
+        <p>帮我审一下，甲方立场，标准就行。</p>
+      </div>
+    </div>
+    <div class="msg bot">
+      <div class="av">AI</div>
+      <div class="bubble">
+        <p>收到，开始审《XX采购合同_对方草案》。本次口径：<b>甲方（采购方）· 买卖合同 · 标准</b>，知识库快照 #217。</p>
+        <p>要素先核一下：买方=XX科技有限公司，卖方=YY设备厂；总价 520 万（含税 13%）；交付签约后 30 日；质保 1 年。有误直接说，我 5 秒后开始审。</p>
+        <div class="progress">进度：已审 12/17 条 · 完整性检查中…<div class="bar"></div></div>
+      </div>
+    </div>
+    <div class="msg bot">
+      <div class="av">AI</div>
+      <div class="bubble">
+        <div class="verdict warn">⚠ 总体建议：修改后签署 <span class="sub">高 2 · 中 4 · 低 3 · 缺失 2 · 一致性 1（辅助意见，需人工终审）</span></div>
+        <p><b>高风险先看：</b>发现 1 逾期付款违约金日千分之一且无上限；发现 5 管辖约定"或裁或诉"无效风险。</p>
+        <div class="finding">
+          <div class="f-head"><span class="chip high">发现 1 · 高风险</span><b>逾期付款违约金比例畸高且无上限</b><span class="chip conf-h">置信度：高 · 命中阈值</span><span class="loc">第 8.2 条</span></div>
+          <div class="quote">"甲方逾期付款的，每逾期一日，应按逾期金额的千分之一向乙方支付违约金。"</div>
+          <p>日千分之一 ≈ 年化 36.5%，超司法支持上限（LPR 4 倍）；无总额上限，敞口不确定。</p>
+          <div class="basis">依据 <span class="refnum">1</span> R-PAY-014 v3　<span class="refnum">2</span> P-002 v1　相似案例 2 条</div>
+          <div class="fix"><b>建议改为：</b>"甲方逾期付款的，按逾期金额日万分之三支付违约金，累计不超过逾期部分金额的 10%。"</div>
+          <div class="quick"><span class="q">采纳</span><span class="q">驳回</span><span class="q">接受风险</span><span class="q">展开依据</span></div>
+        </div>
+        <div class="finding mid">
+          <div class="f-head"><span class="chip mid">发现 3 · 中风险</span><b>验收期与付款节点矛盾</b><span class="chip conf-m">置信度：中</span><span class="loc">第 5.3 条 × 第 6.1 条 · 一致性</span></div>
+          <p>验收期为到货后 30 日，但约定到货后 15 日付全款——付款先于验收，丧失验收抓手。</p>
+          <div class="basis">依据：系统一致性检查（付款节点早于验收节点）；<span class="refnum">3</span> R-PAY-022 v1</div>
+          <div class="fix"><b>建议：</b>改为验收合格后 15 日付款，或拆预付款 + 验收尾款。</div>
+        </div>
+        <p class="muted">另有 3 条低风险已折叠，回复"展开低风险"查看；缺失条款 2 项（不可抗力、通知与送达）见下一条消息。数据合规相关条款<b>知识库未覆盖</b>，第 11 条请人工复核，需要的话我可以帮你存成案例。</p>
+      </div>
+    </div>
+    <div class="msg user"><div class="av">我</div><div class="bubble"><p>发现 1 采纳。发现 3 驳回，这份合同是预付款模式，我们已经知道。导出一份只含未解决问题的 Word。</p></div></div>
+    <div class="msg bot">
+      <div class="av">AI</div>
+      <div class="bubble">
+        <p>已记录：发现 1 已采纳；发现 3 驳回（预付款已知情，不回流规则修订——这是单次业务安排）。</p>
+        <p>报告按"仅未解决问题"口径导出 👇 依据快照 #217 已绑定，后续规则变了也不影响这份报告。</p>
+        <div class="attach"><span class="fi">📎</span><b>XX采购合同_审核意见_未解决问题.docx</span><span class="muted">（系统生成）</span></div>
+      </div>
+    </div>
+  </div>
 
-  <h3>10.2 置信度定义与使用</h3>
-  <table>
-    <tr><th>置信度</th><th>判定条件</th><th>展示规则</th></tr>
-    <tr><td><span class="chip conf-h">高</span></td><td>条款表述明确命中规则判定条件（含阈值计算命中、关键模式匹配）</td><td>正常展示为风险发现</td></tr>
-    <tr><td><span class="chip conf-m">中</span></td><td>语义高度相似但表述有差异；或仅案例佐证、无直接规则</td><td>正常展示，措辞保留不确定性</td></tr>
-    <tr><td><span class="chip conf-l">低</span></td><td>推断性关联、跨类型类比</td><td>宽松/标准模式默认折叠为提示；严格模式展开并显著标注"需重点人工复核"</td></tr>
-  </table>
-  <div class="callout key"><span class="ct">等级 × 置信度正交</span>风险等级回答"有多严重"，置信度回答"有多确定"，两者互不替代；任何等级都可能低置信，任何低置信发现都不得被删除（只可折叠），保证严格模式下无隐匿。</div>
-
-  <h3>10.3 依据与溯源规则</h3>
-  <ul>
-    <li>每条条款风险发现必须关联 ≥1 条<b>已生效</b>知识条目；缺失/一致性发现可关联系统检查项（附规则者优先）。</li>
-    <li>引用展示：条目名称 + ID + 版本号；点击打开条目详情并高亮来源锚点。</li>
-    <li>已停用条目不参与新审核；历史报告通过快照仍可查看其出审时版本。</li>
-    <li>建议修改文本必须来自规则/案例记载或其改写；系统自行发挥的润色部分与"库内建议文本"视觉可区分。</li>
-  </ul>
-
-  <h3>10.4 去重与冲突的统一规则</h3>
-  <ul>
-    <li><b>去重触发：</b>候选 vs 候选、候选 vs 已生效；相似度仅作提示，合并由用户决定，不自动删除任何条目。</li>
-    <li><b>冲突要件：</b>条款类型相同 + 立场相同 + 判定结论/阈值互斥。冲突未解前，相关条目均不得生效（已生效的被新修订挑战时，新修订不生效，旧规则继续有效直至裁决完成）。</li>
-    <li><b>裁决留痕：</b>记录裁决人、时间、被取代条目 ID 与理由；原则层优先级可作为系统推荐裁决顺序，但不替用户决定。</li>
-  </ul>
-
-  <h3>10.5 角色与权限（P0）</h3>
-  <table>
-    <tr><th>操作</th><th>所有者（法务负责人/管理员）</th><th>成员（法务/业务经办）</th></tr>
-    <tr><td>投喂素材、发起审核、处置报告、提交反馈</td><td>✓</td><td>✓</td></tr>
-    <tr><td>确认/驳回知识候选、裁决冲突</td><td>✓</td><td>仅可提交候选，确认权归所有者（可配置为指定资深法务）<span class="chip info">TBD · Q4</span></td></tr>
-    <tr><td>编辑/停用/回滚已生效条目、导出知识库</td><td>✓</td><td>✗</td></tr>
-    <tr><td>成员与角色管理、审计日志查看</td><td>✓</td><td>✗</td></tr>
-  </table>
-
-  <h3>10.6 审计、数据与合规</h3>
-  <ul>
-    <li><b>审计日志：</b>记录知识条目确认/修订/停用/回滚、冲突裁决、审核任务创建与报告完成、反馈沉淀；含操作人、时间、前后值；日志不可由普通角色删除。</li>
-    <li><b>数据保密：</b>合同与素材属敏感商业数据；产品默认承诺用户上传内容不用于公共模型训练，租户间数据隔离；私有化部署/专有模型选项见 <span class="chip info">Q1</span>。</li>
-    <li><b>免责声明：</b>产品内与导出报告中固定声明"本意见为智能辅助，不构成正式法律意见，最终以贵方法务/执业律师判断为准"；措辞与用户协议法务审核 <span class="chip info">TBD · Q6</span>。</li>
-    <li><b>删除权：</b>素材可删除（关联条目同步标记来源缺失，条目不自动删除但提示补来源）；合同与报告可由所有者删除，删除行为入审计日志。</li>
-  </ul>
-
-  <h3>10.7 全局异常处理汇总</h3>
-  <table>
-    <tr><th>异常</th><th>用户感知</th><th>恢复路径</th></tr>
-    <tr><td>文件解析失败/扫描件</td><td>明确原因，不产生脏数据</td><td>换格式重传；P1 支持 OCR</td></tr>
-    <tr><td>模型服务超时/故障</td><td>提炼或审核中断提示；已完成内容保留</td><td>任务级重试；整篇审核支持按失败条款单条重试</td></tr>
-    <tr><td>知识冲突未裁决</td><td>条目标红，不出现在审核引用范围</td><td>跳转裁决页处理后生效</td></tr>
-    <tr><td>知识库为空/类型未覆盖</td><td>空库声明 / 未覆盖提示</td><td>一键投喂；仅输出系统级检查</td></tr>
-    <tr><td>低置信噪音过多</td><td>严格度切换为宽松/标准</td><td>折叠低置信；驳回反馈回流优化规则</td></tr>
-    <tr><td>重复上传/重复候选</td><td>疑似重复提示</td><td>合并或忽略</td></tr>
-    <tr><td>误操作修改规则</td><td>二次确认 + 版本归档</td><td>一键回滚到历史版本</td></tr>
-  </table>
+  <h3>10.4 反馈再学习</h3>
+  <div class="chat">
+    <div class="msg user">
+      <div class="av">我</div>
+      <div class="bubble"><p>上次你把"背靠背付款"都判成高风险，但我们公司现在对央企客户是接受背靠背的，以后区分客户性质判断。</p></div>
+    </div>
+    <div class="msg bot">
+      <div class="av">AI</div>
+      <div class="bubble">
+        <p>明白，我据此生成一条规则修订候选：</p>
+        <div class="kcand">
+          <div class="kch"><span>R-PAY-031 修订候选 v2</span><span>待确认</span></div>
+          <div class="kcb">
+            <table>
+              <tr><th>修订点</th><td>"背靠背付款"由一律高风险，改为：付款方为<b>央企/国企</b>时降为低风险提示；其他主体维持高风险</td></tr>
+              <tr><th>适用立场</th><td>乙方（收款方）</td></tr>
+              <tr><th>附带案例</th><td>本次反馈原话 + 近 30 天 2 份被驳回的相关审核记录（公司名可脱敏）</td></tr>
+            </table>
+            <div class="quick"><span class="q">✅ 确认生效</span><span class="q">再改改</span><span class="q">先不沉淀</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="msg user"><div class="av">我</div><div class="bubble"><p>确认生效</p></div></div>
+    <div class="msg bot">
+      <div class="av">AI</div>
+      <div class="bubble"><p>R-PAY-031 v2 已生效。以后审到背靠背条款，我会先识别付款方性质再定级，并在意见里说明依据变化。</p></div>
+    </div>
+  </div>
 </section>
 
 <!-- ============ 11 ============ -->
 <section id="s11">
-  <h2><span class="num">11</span>开放问题（需评审决策）</h2>
+  <h2><span class="num">11</span>共享规则与异常</h2>
+
+  <h3>11.1 风险等级定义（全产品唯一定义）</h3>
   <table>
-    <tr><th style="width:50px">编号</th><th>问题</th><th>影响</th><th>当前假设</th></tr>
-    <tr><td>Q1</td><td>部署形态：公有云 SaaS / 私有化部署 / 专有大模型选项如何取舍？</td><td>数据合规、成本、模型能力边界</td><td><span class="chip info">[Assumption, TBD]</span> P0 以 SaaS 多租户 + 数据不进训练集为默认，私有化按客户需求排期</td></tr>
-    <tr><td>Q2</td><td>是否提供官方/行业内置合同审核规则模板包与必备条款清单？由谁维护、如何免责？</td><td>冷启动体验与"无依据不出意见"原则的边界</td><td><span class="chip info">[Assumption, TBD]</span> 提供"基础必备条款清单（中性）"作为系统检查项；立场性规则模板包不做官方背书</td></tr>
-    <tr><td>Q3</td><td>量化阈值如何表达与维护（如 LPR 4 倍这类动态值）？是否支持引用动态参数？</td><td>规则可执行性与误判率</td><td><span class="chip info">[Assumption, TBD]</span> P0 阈值手工填写并提醒有效性日期；动态参数能力排 P1</td></tr>
-    <tr><td>Q4</td><td>成员提交知识候选的确认权模型：单审核人 / 双人复核？</td><td>知识库质量与协作流程</td><td><span class="chip info">[Assumption, TBD]</span> P0 所有者一人确认；P1 支持复核流</td></tr>
-    <tr><td>Q5</td><td>反馈回流为案例时的自动脱敏规则（公司名、金额、人名）粒度？</td><td>跨团队共享知识库时的保密风险</td><td><span class="chip info">[Assumption, TBD]</span> P0 仅在单团队空间内回流、默认不脱敏但提供手动脱敏入口；跨空间共享为 P1</td></tr>
-    <tr><td>Q6</td><td>辅助意见免责声明的最终措辞、用户协议与责任边界</td><td>法务合规</td><td>需法务评审，PRD 不拟定法律文本</td></tr>
-    <tr><td>Q7</td><td>知识库效果指标口径（命中率、误报率）的埋点定义与目标值</td><td>"越用越准"的可度量性</td><td>P0 仅采集原始处置数据；指标定义与目标值 P1 立项时确定，本文不虚构目标数值</td></tr>
-    <tr><td>Q8</td><td>P0 支持语言（仅中文 / 中英双语合同）</td><td>解析与审核范围</td><td><span class="chip info">[Assumption, TBD]</span> P0 中文合同优先，英文条款识别按实际客户需求评估</td></tr>
+    <tr><th style="width:90px">等级</th><th>定义</th><th>典型情形</th><th>对话处置导向</th></tr>
+    <tr><td><span class="chip high">高</span></td><td>可能导致重大经济损失、重大法律责任或合同核心目的落空；触碰原则层红线</td><td>无限连带责任、畸高违约金无上限、核心义务无约束、管辖落空、排他锁死</td><td>进总体结论高风险清单，建议必须修改</td></tr>
+    <tr><td><span class="chip mid">中</span></td><td>权利义务明显失衡或显著增加我方成本，可谈判修正</td><td>付款条件苛刻、验收标准模糊、责任限制单向、知识产权归属不利</td><td>正常发卡，建议谈判修改</td></tr>
+    <tr><td><span class="chip low">低</span></td><td>表述不严谨、次要不利或隐患，不影响主要权利义务</td><td>保密期限缺失、通知地址不全、定义不规范</td><td>标准模式折叠计数，按需展开</td></tr>
+    <tr><td><span class="chip info">提示</span></td><td>非风险定性：待确认、知识未覆盖、客观提醒</td><td>空白待填、无覆盖、要素疑似有误</td><td>简短提示样式</td></tr>
+  </table>
+
+  <h3>11.2 置信度定义与使用</h3>
+  <table>
+    <tr><th>置信度</th><th>判定条件</th><th>展示规则</th></tr>
+    <tr><td><span class="chip conf-h">高</span></td><td>明确命中规则判定条件（阈值计算命中、关键模式匹配）</td><td>正常风险卡</td></tr>
+    <tr><td><span class="chip conf-m">中</span></td><td>语义高度相似但表述有差异；或仅案例佐证</td><td>正常发卡，措辞保留不确定性</td></tr>
+    <tr><td><span class="chip conf-l">低</span></td><td>推断性关联、跨类型类比</td><td>宽松/标准折叠为提示；严格模式放出并显著标注"需重点人工复核"</td></tr>
+  </table>
+  <div class="callout key"><span class="ct">等级 × 置信度正交</span>风险等级回答"有多严重"，置信度回答"有多确定"；低置信发现只可折叠不可删除，严格模式全部可见。</div>
+
+  <h3>11.3 依据与溯源规则</h3>
+  <ul>
+    <li>条款风险发现必须关联 ≥1 条<b>已生效</b>条目；缺失/一致性发现可关联系统检查项（有规则者优先）。</li>
+    <li>对话中以角标编号 + 依据清单呈现；"展开依据 X"可取条目全文与来源原文摘录；条目含稳定 ID + 版本号。</li>
+    <li>已停用条目不参与新审核；历史审核结果通过快照仍可查看其出审版本。</li>
+    <li>建议文本必须来自规则/案例记载或其改写；智能体自行润色部分与库内文本在消息中可区分。</li>
+  </ul>
+
+  <h3>11.4 去重与冲突的统一规则</h3>
+  <ul>
+    <li>去重触发于候选 vs 候选、候选 vs 已生效；相似只作提示，合并由用户决定，不自动删除。</li>
+    <li>冲突要件：条款类型相同 + 立场相同 + 判定结论/阈值互斥。冲突未解前相关候选不生效；挑战已生效规则的修订在裁决前不生效，旧规则继续有效。</li>
+    <li>裁决留痕：裁决人、时间、被取代条目、理由；原则优先级只作推荐。</li>
+  </ul>
+
+  <h3>11.5 会话与记忆规则</h3>
+  <ul>
+    <li>知识库与默认审核配置<b>跨会话持久</b>；单次审核上下文（当前合同、发现编号）仅在所属会话有效，历史会话可通过搜索/引用找回。</li>
+    <li>每次新审核开始时复述本次口径；长流程中存在待办（待确认候选、进行中任务）时，新会话首条消息智能体提醒一次。</li>
+    <li>用户可指令"忘掉刚才的合同"清除会话内审核上下文（不删知识库）。</li>
+  </ul>
+
+  <h3>11.6 操作留痕与撤销</h3>
+  <ul>
+    <li>知识条目确认/修订/停用/回滚/裁决、素材删除、审核任务与导出、反馈沉淀均记录：操作人（会话用户）、时间、前后值摘要；通过对话可查（FR-03）。</li>
+    <li><b>撤销窗口：</b>知识类操作在回执后 10 分钟内或该条目未被后续审核引用前（以先到为准）可回复"撤销"一键回退；超窗口走版本回滚。具体时长 <span class="chip info">TBD · Q7</span>。</li>
+    <li>P0 不设角色权限：对话使用者拥有全部操作权并留痕；多人/分权为 P1。</li>
+  </ul>
+
+  <h3>11.7 数据与合规</h3>
+  <ul>
+    <li>合同与素材为敏感商业数据；默认承诺用户内容不用于公共模型训练、数据租户隔离；私有化/专有模型选项见 Q1。</li>
+    <li>对话回复与导出报告固定声明"本意见为智能辅助，不构成正式法律意见，最终以贵方法务/执业律师判断为准"；措辞法务审核 <span class="chip info">TBD · Q6</span>。</li>
+    <li>素材可对话删除（关联条目标记来源缺失并提示补来源，条目不自动删除）；删除素材属高影响操作需确认并入留痕。</li>
+  </ul>
+
+  <h3>11.8 全局异常处理汇总</h3>
+  <table>
+    <tr><th>异常</th><th>对话表现</th><th>恢复路径</th></tr>
+    <tr><td>文件解析失败/扫描件</td><td>明确说明原因，不产生脏数据</td><td>换格式重发；P1 支持 OCR</td></tr>
+    <tr><td>模型超时/故障</td><td>进度消息转失败提示，已产出部分保留</td><td>任务级重试；整篇支持"重试第 X 条"</td></tr>
+    <tr><td>冲突未裁决</td><td>相关候选标记不可通过并周期性提醒</td><td>一句话裁决后生效</td></tr>
+    <tr><td>空库/类型未覆盖</td><td>空库声明/未覆盖提示，可一键转投喂</td><td>投喂后再审</td></tr>
+    <tr><td>低置信噪音多</td><td>用户说"少点噪音/宽松点"</td><td>切换严格度；驳回回流优化规则</td></tr>
+    <tr><td>重复投喂</td><td>"这份和 X 很像，要仍作为案例入库吗？"</td><td>合并或忽略</td></tr>
+    <tr><td>误操作改规则</td><td>操作回执即确认 + 版本归档</td><td>撤销窗口内"撤销"；之后"回滚到 vN"</td></tr>
+    <tr><td>长任务中用户插话</td><td>先答插话，再提示未完成事项</td><td>"继续"恢复流程</td></tr>
   </table>
 </section>
 
 <!-- ============ 12 ============ -->
 <section id="s12">
-  <h2><span class="num">12</span>术语表</h2>
+  <h2><span class="num">12</span>开放问题（需评审决策）</h2>
+  <table>
+    <tr><th style="width:50px">编号</th><th>问题</th><th>影响</th><th>当前假设</th></tr>
+    <tr><td>Q1</td><td>承载终端：企业 IM 机器人（飞书/钉钉/企微）/ 独立对话应用 / 网页聊天窗，P0 先落哪个？部署形态（SaaS/私有化/专有模型）？</td><td>消息卡片能力、数据合规、成本</td><td><span class="chip info">[Assumption, TBD]</span> P0 优先企业 IM 机器人 + SaaS（数据不进训练集）；私有化按需排期</td></tr>
+    <tr><td>Q2</td><td>是否提供官方/行业内置规则模板包与中性必备条款清单？谁维护、如何免责？</td><td>冷启动与"无依据不出意见"的边界</td><td><span class="chip info">[Assumption, TBD]</span> 仅提供中性必备条款清单作为系统检查项；立场性规则不做官方背书</td></tr>
+    <tr><td>Q3</td><td>量化阈值中动态值（如 LPR 4 倍）如何表达与更新？</td><td>规则可执行性与误判率</td><td><span class="chip info">[Assumption, TBD]</span> P0 手工填写并提醒有效性日期；动态参数排 P1</td></tr>
+    <tr><td>Q4</td><td>消息卡片快捷操作的能力上限是否受终端限制（IM 平台交互卡片差异）？纯文字指令是否能 100% 兜底？</td><td>跨终端体验一致性</td><td><span class="chip info">[Assumption, TBD]</span> 以纯文字指令全可达为验收底线，卡片按终端能力渐进增强</td></tr>
+    <tr><td>Q5</td><td>反馈回流案例时的自动脱敏（公司名、金额、人名）粒度？</td><td>未来跨团队共享时的保密风险</td><td><span class="chip info">[Assumption, TBD]</span> P0 单空间内不强制脱敏，提供"脱敏后沉淀"选项；跨空间共享为 P1</td></tr>
+    <tr><td>Q6</td><td>辅助意见免责声明最终措辞、用户协议与责任边界</td><td>法务合规</td><td>需法务评审，PRD 不拟定法律文本</td></tr>
+    <tr><td>Q7</td><td>撤销窗口时长、整篇审核单文件页数上限、单批候选卡数量</td><td>对话节奏与成本</td><td>撤销 10 分钟；50 页；每批 5 张（待验证后定档）</td></tr>
+    <tr><td>Q8</td><td>效果指标（命中率/误报率）如何在对话中度量与回答？目标值？</td><td>"越用越准"可度量性</td><td>P0 仅采集处置原始数据并支持覆盖分布问答；指标体系与目标值 P1 立项，本文不虚构数值</td></tr>
+    <tr><td>Q9</td><td>P0 支持语言（仅中文/中英双语合同）</td><td>解析与审核范围</td><td><span class="chip info">[Assumption, TBD]</span> P0 中文优先</td></tr>
+  </table>
+</section>
+
+<!-- ============ 13 ============ -->
+<section id="s13">
+  <h2><span class="num">13</span>术语表</h2>
   <table>
     <tr><th style="width:150px">术语</th><th>定义</th></tr>
-    <tr><td>审核原则</td><td>企业关于合同风险偏好与立场的总纲性规定，构成知识库原则层。</td></tr>
-    <tr><td>规则条目</td><td>按条款类型沉淀的可执行审核标准，含判定条件、风险等级与修改建议，是审核主依据。</td></tr>
-    <tr><td>案例条目</td><td>真实条款/合同片段及其点评与处理方式，用于语义比对和佐证。</td></tr>
-    <tr><td>知识提炼</td><td>智能体把素材转换为结构化知识条目候选的过程。</td></tr>
-    <tr><td>候选</td><td>已提炼但未经人工确认、尚不参与审核的知识条目。</td></tr>
+    <tr><td>对话会话</td><td>用户与智能体的一次持续对话上下文；知识库跨会话持久，审核上下文随会话留存。</td></tr>
+    <tr><td>审核原则</td><td>企业合同风险偏好与立场总纲，构成原则层。</td></tr>
+    <tr><td>规则条目</td><td>按条款类型沉淀的可执行审核标准，含判定条件、等级与修改建议，审核主依据。</td></tr>
+    <tr><td>案例条目</td><td>真实条款/合同片段及点评与处理方式，用于语义比对与佐证。</td></tr>
+    <tr><td>知识候选卡片</td><td>智能体在对话中发出的结构化待确认消息；经用户确认后条目才生效。</td></tr>
+    <tr><td>发现卡片</td><td>审核结果在对话中的结构化消息，统一编号供口头引用处置。</td></tr>
     <tr><td>冲突待裁决</td><td>同立场同类型条目判定互斥时的锁定状态，裁决前不得生效。</td></tr>
-    <tr><td>知识库版本快照</td><td>审核任务发起时全部已生效条目及其版本的只读记录，用于报告复现。</td></tr>
-    <tr><td>发现（Finding）</td><td>审核输出的单条意见：条款风险 / 缺失 / 一致性问题 / 提示。</td></tr>
-    <tr><td>严格度</td><td>控制发现展示范围（宽松/标准/严格）的配置，不改变风险等级。</td></tr>
-    <tr><td>红线</td><td>原则层标记的不可接受事项，命中即判高风险并进入报告摘要。</td></tr>
+    <tr><td>知识库版本快照</td><td>审核发起时全部生效条目及版本的只读记录，用于结果复现。</td></tr>
+    <tr><td>严格度</td><td>控制发现展示范围（宽松/标准/严格）的口头配置，不改变风险等级。</td></tr>
+    <tr><td>红线</td><td>原则层标记的不可接受事项，命中即高风险并进总体结论清单。</td></tr>
   </table>
 
-  <div class="foot-note">合同审核智能体 PRD v1.0（草案）· 2026-10-11 · 待评审 · 本文档仅定义产品行为与业务规则，不含技术架构与实现方案</div>
+  <div class="foot-note">合同审核对话智能体 PRD v2.0（草案）· 2026-10-12 · 待评审 · 本文档仅定义产品行为与业务规则，不含技术架构与实现方案</div>
 </section>
 
 </div>
