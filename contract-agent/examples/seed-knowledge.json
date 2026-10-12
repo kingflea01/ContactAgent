@@ -1,0 +1,416 @@
+{
+  "_comment": "示例种子数据兼校验夹具：1 素材 + 1 原则 + 2 规则 + 2 案例 + 1 审核任务(含3条发现与快照) + 1 反馈。时间均为示例。",
+  "materials": [
+    {
+      "id": "M-1001",
+      "material_type": "principle",
+      "channel": "file",
+      "file_ref": {
+        "storage_key": "tenant-01/materials/2026/10/guide-v3.docx",
+        "filename": "公司合同审核指引v3.docx",
+        "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      },
+      "text": null,
+      "stance": "both",
+      "contract_type": "general",
+      "tags": ["审核指引", "v3"],
+      "parse_result": {
+        "segment_count": 2,
+        "segments": [
+          {
+            "index": 1,
+            "title": "第1.3节 责任承担原则",
+            "clause_type": "liability_limit",
+            "clause_type_confirmed_by_user": true,
+            "text": "我方一律不接受无上限连带责任……",
+            "paired_opinion": null
+          },
+          {
+            "index": 2,
+            "title": "第4.2节 逾期付款违约金",
+            "clause_type": "penalty",
+            "clause_type_confirmed_by_user": true,
+            "text": "逾期付款违约金年化不得超过同期LPR四倍，总额不超过合同金额10%……",
+            "paired_opinion": null
+          }
+        ]
+      },
+      "status": "ingested",
+      "error": null,
+      "candidate_ids": ["P-002", "R-PAY-014", "R-FORCE-003"],
+      "conversation_ref": "conv-7788/msg-12",
+      "created_at": "2026-10-12T02:10:00Z",
+      "created_by": "user-legal-01"
+    }
+  ],
+  "principles": [
+    {
+      "id": "P-002",
+      "item_type": "principle",
+      "version": 1,
+      "status": "active",
+      "name": "违约责任条款立场",
+      "content": "我方承担的违约责任必须设上限：逾期类违约金年化不超过同期 LPR 四倍、累计不超过相应款项的 10%；不接受无上限的违约金或损失赔偿约定。",
+      "stance": "party_a",
+      "priority": 90,
+      "is_redline": true,
+      "contract_types": ["general"],
+      "tags": ["违约责任", "红线"],
+      "source": {
+        "material_id": "M-1001",
+        "locator": "第1.3节、第4.2节",
+        "quote": "我方一律不接受无上限连带责任……"
+      },
+      "change_note": "首次确认入库",
+      "supersedes_version": null,
+      "created_at": "2026-10-12T02:15:00Z",
+      "created_by": "user-legal-01",
+      "confirmed_at": "2026-10-12T02:16:30Z",
+      "confirmed_by": "user-legal-01"
+    }
+  ],
+  "rules": [
+    {
+      "id": "R-PAY-014",
+      "item_type": "rule",
+      "version": 3,
+      "status": "active",
+      "name": "逾期付款违约金上限审查",
+      "clause_types": ["penalty", "payment"],
+      "contract_types": ["sales", "procurement", "service", "general"],
+      "stance": "party_a",
+      "risk_point": "付款方逾期违约金日费率畸高或总额无上限，超出司法实践支持范围且违约成本敞口不确定",
+      "conditions": {
+        "logic": "any",
+        "conditions": [
+          {
+            "kind": "numeric",
+            "field": "derived.daily_rate_annualized",
+            "operator": "gt",
+            "value": 0.138,
+            "unit": "ratio",
+            "annualize": true,
+            "note": "日费率×365 年化后高于一年期 LPR 4 倍（本规则按投喂口径取 13.8%，阈值变更需修订条目）"
+          },
+          {
+            "kind": "numeric",
+            "field": "derived.penalty_cap_ratio",
+            "operator": "gt",
+            "value": 0.1,
+            "unit": "ratio",
+            "annualize": false,
+            "note": "违约金累计总额超过逾期部分金额的 10%"
+          },
+          {
+            "kind": "keyword_exclude",
+            "field": "clause_text",
+            "operator": "not_contains",
+            "value": ["不超过", "上限", "累计"],
+            "unit": null,
+            "annualize": false,
+            "note": "条款未约定任何违约金总额上限"
+          }
+        ]
+      },
+      "default_risk_level": "high",
+      "suggested_text": "甲方逾期付款的，按逾期金额日万分之三支付违约金，累计不超过逾期部分金额的 10%。",
+      "negotiation_fallback": null,
+      "positive_examples": [
+        "违约金按日万分之五计算，累计总额不超过合同总价的 10%。"
+      ],
+      "negative_examples": [
+        "每逾期一日，应按逾期金额的千分之一支付违约金。"
+      ],
+      "required_clause": false,
+      "model_template": null,
+      "related_case_ids": ["C-007", "C-008"],
+      "tags": ["违约金", "付款"],
+      "source": {
+        "material_id": "M-1001",
+        "locator": "第4.2节",
+        "quote": "逾期付款违约金年化不得超过同期LPR四倍，总额不超过合同金额10%"
+      },
+      "change_note": "总额上限由 20% 修订为 10%，与专项口径对齐",
+      "supersedes_version": 2,
+      "created_at": "2026-10-12T02:15:00Z",
+      "created_by": "user-legal-01",
+      "confirmed_at": "2026-10-12T02:16:30Z",
+      "confirmed_by": "user-legal-01"
+    },
+    {
+      "id": "R-FORCE-003",
+      "item_type": "rule",
+      "version": 1,
+      "status": "active",
+      "name": "不可抗力条款必备要素",
+      "clause_types": ["force_majeure"],
+      "contract_types": ["general"],
+      "stance": "both",
+      "risk_point": "缺少不可抗力条款，突发事件下责任减免与合同解除缺乏合同依据",
+      "conditions": null,
+      "default_risk_level": "medium",
+      "suggested_text": "因不可抗力致使一方不能履行本合同的，应在事件发生后 5 日内提供有效证明并及时通知对方；双方根据影响程度协商减免责任、延期履行或解除合同。",
+      "negotiation_fallback": null,
+      "positive_examples": [],
+      "negative_examples": [],
+      "required_clause": true,
+      "model_template": "因不可抗力致使一方不能履行本合同的，应在事件发生后 5 日内提供有效证明并及时通知对方；双方根据影响程度协商减免责任、延期履行或解除合同。",
+      "related_case_ids": [],
+      "tags": ["必备条款"],
+      "source": {
+        "material_id": "M-1001",
+        "locator": "第6章 必备条款清单",
+        "quote": "买卖合同类合同必须包含不可抗力条款"
+      },
+      "change_note": null,
+      "supersedes_version": null,
+      "created_at": "2026-10-12T02:15:00Z",
+      "created_by": "user-legal-01",
+      "confirmed_at": "2026-10-12T02:16:30Z",
+      "confirmed_by": "user-legal-01"
+    }
+  ],
+  "cases": [
+    {
+      "id": "C-007",
+      "item_type": "case",
+      "version": 1,
+      "status": "active",
+      "case_scope": "clause",
+      "title": "2025年设备采购合同 日千分之一违约金反例",
+      "polarity": "negative",
+      "clause_types": ["penalty"],
+      "contract_types": ["procurement"],
+      "stance": "party_a",
+      "clause_text": "甲方逾期付款的，每逾期一日，应按逾期金额的千分之一向乙方支付违约金。",
+      "contract_ref": null,
+      "expert_comment": "日千分之一折年化约 36.5%，明显超出司法支持上限，且无总额封顶；谈判中改为日万分之三并设 10% 封顶后对方接受。",
+      "resolution": "对方接受修订",
+      "suggested_text": "甲方逾期付款的，按逾期金额日万分之三支付违约金，累计不超过逾期部分金额的 10%。",
+      "related_rule_ids": ["R-PAY-014"],
+      "desensitized": true,
+      "tags": ["违约金", "高费率"],
+      "source": {
+        "material_id": "M-1001",
+        "locator": "附录案例2",
+        "quote": "每逾期一日，应按逾期金额的千分之一……"
+      },
+      "origin": "material_feed",
+      "change_note": null,
+      "supersedes_version": null,
+      "created_at": "2026-10-12T02:15:00Z",
+      "created_by": "user-legal-01",
+      "confirmed_at": "2026-10-12T02:16:30Z",
+      "confirmed_by": "user-legal-01"
+    },
+    {
+      "id": "C-008",
+      "item_type": "case",
+      "version": 1,
+      "status": "active",
+      "case_scope": "clause",
+      "title": "服务合同 双封顶违约金正例",
+      "polarity": "positive",
+      "clause_types": ["penalty", "payment"],
+      "contract_types": ["service"],
+      "stance": "party_a",
+      "clause_text": "委托方逾期付款的，按逾期金额日万分之三支付违约金，违约金累计不超过应付未付金额的 10%。",
+      "contract_ref": null,
+      "expert_comment": "费率与封顶均符合公司口径，可作为同类条款的采纳模板。",
+      "resolution": "直接采纳",
+      "suggested_text": null,
+      "related_rule_ids": ["R-PAY-014"],
+      "desensitized": true,
+      "tags": ["违约金", "正例"],
+      "source": {
+        "material_id": "M-1001",
+        "locator": "附录正例5",
+        "quote": "日万分之三……累计不超过……10%"
+      },
+      "origin": "material_feed",
+      "change_note": null,
+      "supersedes_version": null,
+      "created_at": "2026-10-12T02:15:00Z",
+      "created_by": "user-legal-01",
+      "confirmed_at": "2026-10-12T02:16:30Z",
+      "confirmed_by": "user-legal-01"
+    }
+  ],
+  "review_tasks": [
+    {
+      "id": "T-20261012001",
+      "mode": "contract",
+      "title": "XX采购合同_对方草案",
+      "input": {
+        "text": null,
+        "file_ref": {
+          "storage_key": "tenant-01/reviews/2026/10/xx-draft.pdf",
+          "filename": "XX采购合同_对方草案.pdf",
+          "page_count": 18
+        },
+        "context_clauses": []
+      },
+      "extracted_elements": {
+        "parties": [
+          { "name": "XX科技有限公司", "role": "买方/甲方", "confirmed_by_user": true },
+          { "name": "YY设备厂", "role": "卖方/乙方", "confirmed_by_user": true }
+        ],
+        "amount": { "value": 5200000, "currency": "CNY", "tax_inclusive": true, "tax_rate": "13%" },
+        "key_dates": [
+          { "label": "交付", "date_expr": "签约后30日" },
+          { "label": "验收", "date_expr": "到货后30日" },
+          { "label": "付款", "date_expr": "到货后15日付全款" },
+          { "label": "质保", "date_expr": "1年" }
+        ],
+        "elements_confirmed": true
+      },
+      "profile": {
+        "stance": "party_a",
+        "contract_type": "procurement",
+        "strictness": "standard",
+        "item_scope": null
+      },
+      "kb_snapshot": {
+        "snapshot_id": "SNAP-217",
+        "captured_at": "2026-10-12T03:00:00Z",
+        "items": [
+          { "item_type": "principle", "item_id": "P-002", "version": 1 },
+          { "item_type": "rule", "item_id": "R-PAY-014", "version": 3 },
+          { "item_type": "rule", "item_id": "R-FORCE-003", "version": 1 },
+          { "item_type": "case", "item_id": "C-007", "version": 1 },
+          { "item_type": "case", "item_id": "C-008", "version": 1 }
+        ]
+      },
+      "status": "completed",
+      "recommendation": "sign_after_revision",
+      "findings": [
+        {
+          "finding_id": "F-20261012001",
+          "no": 1,
+          "category": "clause_risk",
+          "risk_level": "high",
+          "confidence": "high",
+          "confidence_reason": "命中阈值规则：日千分之一×365≈年化36.5% > 13.8%，且条款无总额上限",
+          "location": {
+            "section": "8.2",
+            "title": "违约责任",
+            "related_sections": [],
+            "quote": "甲方逾期付款的，每逾期一日，应按逾期金额的千分之一向乙方支付违约金。"
+          },
+          "issue": "日千分之一折合年化约 36.5%，显著超过司法实践支持上限；且未约定违约金总额上限，逾期成本敞口不确定，对我方（付款方）明显不利。",
+          "evidence_refs": [
+            {
+              "ref_no": 1,
+              "source_type": "rule",
+              "item_id": "R-PAY-014",
+              "version": 3,
+              "check_code": null,
+              "snippet": "年化>LPR4倍或总额>10%判高风险"
+            },
+            {
+              "ref_no": 2,
+              "source_type": "principle",
+              "item_id": "P-002",
+              "version": 1,
+              "check_code": null,
+              "snippet": "我方承担的违约责任必须设上限（红线）"
+            }
+          ],
+          "suggested_text": "甲方逾期付款的，按逾期金额日万分之三支付违约金，累计不超过逾期部分金额的 10%。",
+          "negotiation_fallback": null,
+          "model_template_id": null,
+          "status": "accepted",
+          "disposition_note": null,
+          "feedback_id": null,
+          "created_at": "2026-10-12T03:02:00Z"
+        },
+        {
+          "finding_id": "F-20261012002",
+          "no": 3,
+          "category": "cross_clause",
+          "risk_level": "medium",
+          "confidence": "medium",
+          "confidence_reason": "系统时间逻辑检查：付款节点早于验收节点",
+          "location": {
+            "section": "5.3 × 6.1",
+            "title": "验收期与付款节点矛盾",
+            "related_sections": ["5.3", "6.1"],
+            "quote": "验收期为到货后 30 日；到货后 15 日内付全款。"
+          },
+          "issue": "付款义务先于验收完成，我方丧失以验收制约付款的抓手；如设备到货不合格仍需先付全款，回款风险高。",
+          "evidence_refs": [
+            {
+              "ref_no": 3,
+              "source_type": "system_check",
+              "item_id": null,
+              "version": null,
+              "check_code": "timeline_logic",
+              "snippet": "付款(到货+15日) 早于 验收(到货+30日)"
+            }
+          ],
+          "suggested_text": "改为验收合格后 15 日内支付，或拆分为预付款与验收后尾款。",
+          "negotiation_fallback": null,
+          "model_template_id": null,
+          "status": "rejected",
+          "disposition_note": "本合同为预付款模式，业务已知情接受，属单次业务安排，不沉淀规则",
+          "feedback_id": "FB-0001",
+          "created_at": "2026-10-12T03:02:00Z"
+        },
+        {
+          "finding_id": "F-20261012003",
+          "no": 6,
+          "category": "uncovered_notice",
+          "risk_level": "info",
+          "confidence": "low",
+          "confidence_reason": "知识库无 data_compliance 类型生效条目",
+          "location": {
+            "section": "11",
+            "title": "数据合规授权",
+            "related_sections": [],
+            "quote": "乙方可为履约目的处理甲方提供的相关数据……"
+          },
+          "issue": "当前知识库未覆盖数据合规类风险，该条款未作风险判定，建议人工复核；可将本条款投喂为案例。",
+          "evidence_refs": [],
+          "suggested_text": null,
+          "negotiation_fallback": null,
+          "model_template_id": null,
+          "status": "pending",
+          "disposition_note": null,
+          "feedback_id": null,
+          "created_at": "2026-10-12T03:02:01Z"
+        }
+      ],
+      "exported_reports": [
+        {
+          "scope": "open_only",
+          "format": "docx",
+          "storage_key": "tenant-01/reviews/2026/10/xx-draft-open.docx",
+          "exported_at": "2026-10-12T03:20:00Z"
+        }
+      ],
+      "conversation_ref": "conv-7790/msg-40",
+      "created_at": "2026-10-12T03:00:00Z",
+      "created_by": "user-legal-01",
+      "completed_at": "2026-10-12T03:18:00Z"
+    }
+  ],
+  "feedbacks": [
+    {
+      "id": "FB-0001",
+      "task_id": "T-20261012001",
+      "finding_id": "F-20261012002",
+      "type": "false_positive",
+      "reason_code": "one_time_business_arrangement",
+      "reason_text": "这份合同是预付款模式，我们已经知道，不代表规则口径有问题",
+      "corrected_text": null,
+      "expected_risk_level": null,
+      "clause_snippet": null,
+      "desensitized": false,
+      "generated_candidate_ids": [],
+      "status": "dismissed",
+      "conversation_ref": "conv-7790/msg-45",
+      "created_at": "2026-10-12T03:19:00Z",
+      "created_by": "user-legal-01"
+    }
+  ]
+}

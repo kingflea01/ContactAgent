@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "finding.schema.json",
+  "title": "审核发现 Finding",
+  "description": "一次审核产出的单条意见。条款风险类必须引用 active 知识条目；缺失/一致性类可引用系统检查项。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["finding_id", "no", "category", "risk_level", "confidence", "issue", "status", "created_at"],
+  "properties": {
+    "finding_id": { "type": "string", "pattern": "^F-\\d{6,}$", "description": "全局唯一发现 ID" },
+    "no": { "type": "integer", "minimum": 1, "description": "本次审核任务内的连续编号，供用户口头引用（『发现3』）" },
+    "category": {
+      "type": "string",
+      "enum": ["clause_risk", "missing_clause", "cross_clause", "uncovered_notice"],
+      "description": "条款风险 / 必备条款缺失 / 跨条款一致性 / 未覆盖提示"
+    },
+    "risk_level": { "type": "string", "enum": ["high", "medium", "low", "info"] },
+    "confidence": { "type": "string", "enum": ["high", "medium", "low"] },
+    "confidence_reason": {
+      "type": ["string", "null"],
+      "description": "判定理由一句话：命中阈值 / 语义相似 / 推断关联；阈值命中须含计算过程"
+    },
+    "location": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "单条款审核时可仅填 quote",
+      "properties": {
+        "section": { "type": ["string", "null"] },
+        "title": { "type": ["string", "null"] },
+        "related_sections": { "type": "array", "items": { "type": "string" }, "description": "跨条款问题涉及的两个或多个章节" },
+        "quote": { "type": ["string", "null"], "description": "原文关键句摘录" }
+      }
+    },
+    "issue": { "type": "string", "minLength": 1, "description": "问题说明：条款现状 → 对我方的具体不利后果" },
+    "evidence_refs": {
+      "type": "array",
+      "description": "依据引用。clause_risk 类至少 1 条 item 类型引用；cross_clause/missing_clause 可引用 system_check",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["ref_no", "source_type"],
+        "properties": {
+          "ref_no": { "type": "integer", "minimum": 1, "description": "本次审核依据清单内角标编号" },
+          "source_type": { "type": "string", "enum": ["principle", "rule", "case", "system_check"] },
+          "item_id": { "type": ["string", "null"], "description": "system_check 时可为空" },
+          "version": { "type": ["integer", "null"] },
+          "check_code": {
+            "type": ["string", "null"],
+            "enum": [
+              "party_name_consistency", "amount_reconciliation", "timeline_logic",
+              "term_definition_consistency", "dispute_resolution_conflict",
+              "liability_conflict", "renewal_termination_conflict", "required_clause_check",
+              null
+            ],
+            "description": "系统检查项代码"
+          },
+          "snippet": { "type": ["string", "null"], "description": "来源原文/要点摘录" }
+        }
+      }
+    },
+    "suggested_text": { "type": ["string", "null"], "description": "可直接替换的建议文本" },
+    "negotiation_fallback": { "type": ["string", "null"], "description": "让步底线，仅当库内有记载" },
+    "model_template_id": {
+      "type": ["string", "null"],
+      "pattern": "^R-[A-Z]{2,8}-\\d{3,}$",
+      "description": "缺失条款所引用的必备条款规则（提供示范文本来源）"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "accepted", "rejected", "risk_accepted", "applied_suggestion"],
+      "description": "待处理 / 已采纳 / 已驳回(误报) / 已知悉接受风险 / 已按建议修改"
+    },
+    "disposition_note": { "type": ["string", "null"], "description": "处置说明（驳回原因/接受风险理由）" },
+    "feedback_id": { "type": ["string", "null"], "pattern": "^FB-\\d{4,}$" },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "category": { "const": "clause_risk" } } },
+      "then": {
+        "properties": {
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "contains": {
+              "type": "object",
+              "properties": { "source_type": { "enum": ["principle", "rule", "case"] } },
+              "required": ["source_type"]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "rejected" } } },
+      "then": { "required": ["disposition_note"] }
+    }
+  ]
+}

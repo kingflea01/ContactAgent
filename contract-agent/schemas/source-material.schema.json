@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "source-material.schema.json",
+  "title": "素材 SourceMaterial",
+  "description": "用户在对话中投喂的原始学习材料及其解析结果。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "material_type", "channel", "status", "created_at"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^M-\\d{3,}$",
+      "description": "素材 ID，前缀 M-"
+    },
+    "material_type": {
+      "type": "string",
+      "enum": ["principle", "clause_case", "contract_case"],
+      "description": "审核原则 / 条款案例 / 整篇合同案例"
+    },
+    "channel": { "type": "string", "enum": ["file", "text"] },
+    "file_ref": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "storage_key": { "type": "string" },
+        "filename": { "type": "string" },
+        "mime": { "type": "string", "enum": ["application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/pdf", "text/plain"] }
+      }
+    },
+    "text": { "type": ["string", "null"], "description": "直接粘贴的文本内容（channel=text 时必填）" },
+    "stance": { "type": ["string", "null"], "enum": ["party_a", "party_b", "both"] },
+    "contract_type": {
+      "type": ["string", "null"],
+      "enum": ["sales", "procurement", "service", "lease", "loan", "employment", "nda", "general", "other"]
+    },
+    "tags": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "parse_result": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "description": "解析切分结果，用户可口头纠正后作为提炼输入",
+      "properties": {
+        "segment_count": { "type": "integer", "minimum": 0 },
+        "segments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["index", "text"],
+            "properties": {
+              "index": { "type": "integer", "minimum": 1 },
+              "title": { "type": ["string", "null"] },
+              "clause_type": {
+                "type": ["string", "null"],
+                "enum": [
+                  "payment", "delivery_acceptance", "penalty", "confidentiality", "ip", "warranty",
+                  "force_majeure", "dispute_resolution", "termination", "liability_limit", "indemnity",
+                  "assignment", "auto_renewal", "tax_invoice", "data_compliance", "non_compete", "other"
+                ]
+              },
+              "clause_type_confirmed_by_user": { "type": "boolean", "default": false },
+              "text": { "type": "string" },
+              "paired_opinion": { "type": ["string", "null"], "description": "整篇合同案例中配对到该条款的审核意见/修订说明" }
+            }
+          }
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["received", "parsing", "parsed", "pending_confirmation", "ingested", "ignored", "failed"],
+      "description": "已收到/解析中/解析完成待提炼/候选待确认/已入库/已忽略/解析失败"
+    },
+    "error": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "code": { "type": "string", "enum": ["scanned_pdf", "encrypted", "corrupted", "unsupported_format", "too_large", "timeout"] },
+        "message": { "type": "string" }
+      }
+    },
+    "candidate_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true,
+      "description": "由本素材提炼出的候选/条目 ID"
+    },
+    "conversation_ref": { "type": ["string", "null"], "description": "来源会话/消息定位" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "created_by": { "type": ["string", "null"] }
+  }
+}

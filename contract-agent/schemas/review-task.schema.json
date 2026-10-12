@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "review-task.schema.json",
+  "title": "审核任务 ReviewTask",
+  "description": "一次单条款或整篇合同审核；绑定发起时的知识库版本快照，保证结果可复现。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "mode", "profile", "kb_snapshot", "status", "created_at"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^T-\\d{6,}$", "description": "审核任务 ID，前缀 T-" },
+    "mode": { "type": "string", "enum": ["clause", "contract"], "description": "单条款 / 整篇合同" },
+    "title": { "type": ["string", "null"] },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "text": { "type": ["string", "null"], "description": "粘贴的条款文本" },
+        "file_ref": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "properties": {
+            "storage_key": { "type": "string" },
+            "filename": { "type": "string" },
+            "page_count": { "type": ["integer", "null"] }
+          }
+        },
+        "context_clauses": { "type": "array", "items": { "type": "string" }, "description": "用户补充的相关上下文条款" }
+      }
+    },
+    "extracted_elements": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "description": "整篇合同解析抽取、经用户确认的要素",
+      "properties": {
+        "parties": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name"],
+            "properties": {
+              "name": { "type": "string" },
+              "role": { "type": ["string", "null"], "description": "买方/卖方/甲方/乙方等" },
+              "confirmed_by_user": { "type": "boolean", "default": false }
+            }
+          }
+        },
+        "amount": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "properties": {
+            "value": { "type": ["number", "null"] },
+            "currency": { "type": "string", "default": "CNY" },
+            "tax_inclusive": { "type": ["boolean", "null"] },
+            "tax_rate": { "type": ["string", "null"] }
+          }
+        },
+        "key_dates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["label"],
+            "properties": {
+              "label": { "type": "string", "description": "签署/生效/交付/验收/付款/质保/到期等" },
+              "date_expr": { "type": ["string", "null"], "description": "原文表述或 ISO 日期" }
+            }
+          }
+        },
+        "elements_confirmed": { "type": "boolean", "default": false }
+      }
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stance", "strictness"],
+      "properties": {
+        "stance": { "type": "string", "enum": ["party_a", "party_b"] },
+        "contract_type": {
+          "type": "string",
+          "enum": ["sales", "procurement", "service", "lease", "loan", "employment", "nda", "general", "other"]
+        },
+        "strictness": {
+          "type": "string",
+          "enum": ["loose", "standard", "strict"],
+          "description": "只影响展示范围：loose 仅高+高置信中；standard 高/中展示低折叠；strict 全量"
+        },
+        "item_scope": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "description": "规则适用范围限定，省略表示全部 active 条目",
+          "properties": {
+            "tags": { "type": "array", "items": { "type": "string" } },
+            "clause_types": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "payment", "delivery_acceptance", "penalty", "confidentiality", "ip", "warranty",
+                  "force_majeure", "dispute_resolution", "termination", "liability_limit", "indemnity",
+                  "assignment", "auto_renewal", "tax_invoice", "data_compliance", "non_compete", "other"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "kb_snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["snapshot_id", "captured_at", "items"],
+      "description": "审核发起时全部适用 active 条目及其版本的只读清单",
+      "properties": {
+        "snapshot_id": { "type": "string", "pattern": "^SNAP-\\d{3,}$" },
+        "captured_at": { "type": "string", "format": "date-time" },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["item_type", "item_id", "version"],
+            "properties": {
+              "item_type": { "type": "string", "enum": ["principle", "rule", "case"] },
+              "item_id": { "type": "string" },
+              "version": { "type": "integer", "minimum": 1 }
+            }
+          }
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["reviewing", "pending_review", "completed", "interrupted", "failed"],
+      "description": "审核中 / 结果已发待复核 / 已完成 / 用户中断 / 失败"
+    },
+    "recommendation": {
+      "type": ["string", "null"],
+      "enum": ["sign", "sign_after_revision", "major_revision", null],
+      "description": "可签署 / 修改后签署 / 重大修改后再谈；仅辅助建议"
+    },
+    "findings": {
+      "type": "array",
+      "items": { "$ref": "finding.schema.json" }
+    },
+    "exported_reports": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["scope", "format", "exported_at"],
+        "properties": {
+          "scope": { "type": "string", "enum": ["all", "open_only"], "description": "全量 / 仅未解决问题" },
+          "format": { "type": "string", "enum": ["docx", "pdf"] },
+          "storage_key": { "type": "string" },
+          "exported_at": { "type": "string", "format": "date-time" }
+        }
+      }
+    },
+    "conversation_ref": { "type": ["string", "null"] },
+    "created_at": { "type": "string", "format": "date-time" },
+    "created_by": { "type": ["string", "null"] },
+    "completed_at": { "type": ["string", "null"], "format": "date-time" }
+  }
+}

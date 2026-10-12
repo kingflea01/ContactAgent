@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "case-item.schema.json",
+  "title": "案例条目 CaseItem",
+  "description": "三层知识库之案例层：真实条款/合同片段及其点评与处理方式，用于语义比对、佐证与修改示范生成。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id", "item_type", "version", "status", "polarity", "clause_types",
+    "stance", "clause_text", "source", "created_at"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^C-\\d{3,}$",
+      "description": "稳定 ID，案例层前缀 C-，如 C-031"
+    },
+    "item_type": { "const": "case" },
+    "version": { "type": "integer", "minimum": 1 },
+    "status": { "type": "string", "enum": ["candidate", "active", "suspended", "superseded"] },
+    "case_scope": {
+      "type": "string",
+      "enum": ["clause", "contract"],
+      "description": "条款级案例 / 整篇合同级案例"
+    },
+    "title": { "type": ["string", "null"], "description": "案例标题，如「2025年某采购合同逾期违约金条款」" },
+    "polarity": {
+      "type": "string",
+      "enum": ["negative", "positive", "neutral"],
+      "description": "negative 问题条款反例；positive 优质条款正例；neutral 仅作语义比对素材（无点评的整篇合同）"
+    },
+    "clause_types": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "payment", "delivery_acceptance", "penalty", "confidentiality", "ip", "warranty",
+          "force_majeure", "dispute_resolution", "termination", "liability_limit", "indemnity",
+          "assignment", "auto_renewal", "tax_invoice", "data_compliance", "non_compete", "other"
+        ]
+      }
+    },
+    "contract_types": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["sales", "procurement", "service", "lease", "loan", "employment", "nda", "general", "other"] },
+      "uniqueItems": true
+    },
+    "stance": { "type": "string", "enum": ["party_a", "party_b", "both"] },
+    "clause_text": { "type": "string", "minLength": 1, "description": "条款原文（条款级）或关键片段（合同级）" },
+    "contract_ref": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "description": "合同级案例的定位信息",
+      "properties": {
+        "material_id": { "type": "string", "pattern": "^M-\\d{3,}$" },
+        "section": { "type": ["string", "null"] },
+        "locator": { "type": ["string", "null"] }
+      }
+    },
+    "expert_comment": { "type": ["string", "null"], "description": "专家点评/审核意见：为什么有问题或为什么好" },
+    "resolution": { "type": ["string", "null"], "description": "当时的处理方式" },
+    "suggested_text": { "type": ["string", "null"], "description": "当时采用的修改示范文本" },
+    "related_rule_ids": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^R-[A-Z]{2,8}-\\d{3,}$" },
+      "uniqueItems": true
+    },
+    "desensitized": { "type": "boolean", "default": false, "description": "沉淀时是否已做主体/金额/人名脱敏" },
+    "tags": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["material_id"],
+      "properties": {
+        "material_id": { "type": "string", "pattern": "^M-\\d{3,}$" },
+        "locator": { "type": ["string", "null"] },
+        "quote": { "type": ["string", "null"] }
+      }
+    },
+    "origin": {
+      "type": "string",
+      "enum": ["material_feed", "review_feedback"],
+      "description": "来源途径：直接投喂 / 审核反馈回流"
+    },
+    "change_note": { "type": ["string", "null"] },
+    "supersedes_version": { "type": ["integer", "null"] },
+    "created_at": { "type": "string", "format": "date-time" },
+    "created_by": { "type": ["string", "null"] },
+    "confirmed_at": { "type": ["string", "null"], "format": "date-time" },
+    "confirmed_by": { "type": ["string", "null"] }
+  }
+}

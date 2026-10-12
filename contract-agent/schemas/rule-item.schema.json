@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rule-item.schema.json",
+  "title": "规则条目 RuleItem",
+  "description": "三层知识库之规则层（审核主力）：按条款类型沉淀的可执行审核标准，含判定条件、默认风险等级与建议修改文本。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id", "item_type", "version", "status", "name", "clause_types",
+    "stance", "risk_point", "default_risk_level", "source", "created_at"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^R-[A-Z]{2,8}-\\d{3,}$",
+      "description": "稳定 ID：R-<条款类型代码>-序号，如 R-PAY-014"
+    },
+    "item_type": { "const": "rule" },
+    "version": { "type": "integer", "minimum": 1 },
+    "status": { "type": "string", "enum": ["candidate", "active", "suspended", "superseded"] },
+    "name": { "type": "string", "minLength": 1 },
+    "clause_types": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/clauseType" }
+    },
+    "contract_types": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/contractType" },
+      "uniqueItems": true,
+      "description": "空数组或省略表示通用"
+    },
+    "stance": { "type": "string", "enum": ["party_a", "party_b", "both"] },
+    "risk_point": { "type": "string", "minLength": 1, "description": "风险点说明：该规则要识别的不利情形" },
+    "conditions": {
+      "description": "结构化判定条件；服务端规则引擎据此求值。为 null 时退化为语义判定（置信度上限 medium）。",
+      "anyOf": [
+        { "$ref": "#/$defs/conditionGroup" },
+        { "type": "null" }
+      ]
+    },
+    "default_risk_level": {
+      "type": "string",
+      "enum": ["high", "medium", "low", "info"],
+      "description": "命中时的默认风险等级，审核时可因上下文调整并需在 confidence_reason 说明"
+    },
+    "suggested_text": { "type": ["string", "null"], "description": "建议替换的条款示范文本" },
+    "negotiation_fallback": {
+      "type": ["string", "null"],
+      "description": "谈判让步底线；仅当用户投喂的材料中有明确记载时允许填写，禁止模型臆造"
+    },
+    "positive_examples": { "type": "array", "items": { "type": "string" }, "description": "符合要求的条款表述（正例）" },
+    "negative_examples": { "type": "array", "items": { "type": "string" }, "description": "问题条款表述（反例）" },
+    "required_clause": {
+      "type": "boolean",
+      "default": false,
+      "description": "是否为该合同类型的必备条款；用于整篇审核的完整性检查"
+    },
+    "model_template": { "type": ["string", "null"], "description": "必备条款缺失时提供的示范文本" },
+    "related_case_ids": { "type": "array", "items": { "type": "string", "pattern": "^C-\\d{3,}$" }, "uniqueItems": true },
+    "tags": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["material_id"],
+      "properties": {
+        "material_id": { "type": "string", "pattern": "^M-\\d{3,}$" },
+        "locator": { "type": ["string", "null"] },
+        "quote": { "type": ["string", "null"] }
+      }
+    },
+    "change_note": { "type": ["string", "null"] },
+    "supersedes_version": { "type": ["integer", "null"] },
+    "created_at": { "type": "string", "format": "date-time" },
+    "created_by": { "type": ["string", "null"] },
+    "confirmed_at": { "type": ["string", "null"], "format": "date-time" },
+    "confirmed_by": { "type": ["string", "null"] }
+  },
+  "$defs": {
+    "clauseType": {
+      "type": "string",
+      "enum": [
+        "payment", "delivery_acceptance", "penalty", "confidentiality", "ip", "warranty",
+        "force_majeure", "dispute_resolution", "termination", "liability_limit", "indemnity",
+        "assignment", "auto_renewal", "tax_invoice", "data_compliance", "non_compete", "other"
+      ]
+    },
+    "contractType": {
+      "type": "string",
+      "enum": ["sales", "procurement", "service", "lease", "loan", "employment", "nda", "general", "other"]
+    },
+    "conditionGroup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["logic", "conditions"],
+      "properties": {
+        "logic": { "type": "string", "enum": ["all", "any"], "description": "条件间逻辑：全部满足 / 任一满足" },
+        "conditions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["kind", "field", "operator", "note"],
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": ["keyword_include", "keyword_exclude", "regex", "numeric"],
+                "description": "关键词包含/排除、正则、数值比较"
+              },
+              "field": {
+                "type": "string",
+                "description": "求值字段：clause_text 为条款原文；derived.* 为抽取/换算派生量，如 derived.daily_rate_annualized、derived.penalty_cap_ratio"
+              },
+              "operator": {
+                "type": "string",
+                "enum": ["contains_any", "contains_all", "not_contains", "matches", "not_matches", "gt", "gte", "lt", "lte", "eq"]
+              },
+              "value": {
+                "description": "比较值：关键词为字符串数组；正则为字符串；数值为数字",
+                "oneOf": [
+                  { "type": "array", "items": { "type": "string" } },
+                  { "type": "number" },
+                  { "type": "string" }
+                ]
+              },
+              "unit": { "type": ["string", "null"], "description": "单位，如 % / day / year / day_ratio" },
+              "annualize": {
+                "type": "boolean",
+                "default": false,
+                "description": "数值类条件：是否先把日费率×365 年化再比较"
+              },
+              "note": { "type": "string", "description": "人可读的判定说明，命中时向用户展示计算口径" }
+            }
+          }
+        },
+        "groups": {
+          "type": "array",
+          "description": "可选嵌套条件组，与 conditions 同构，用于 AND/OR 嵌套",
+          "items": { "$ref": "#/$defs/conditionGroup" }
+        }
+      }
+    }
+  }
+}

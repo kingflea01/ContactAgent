@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "feedback.schema.json",
+  "title": "反馈 Feedback",
+  "description": "用户对审核发现的口头纠错记录。记录本身不改知识库；经用户沉淀确认后才生成知识候选。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "task_id", "finding_id", "type", "status", "created_at"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^FB-\\d{4,}$", "description": "反馈 ID，前缀 FB-" },
+    "task_id": { "type": "string", "pattern": "^T-\\d{6,}$" },
+    "finding_id": { "type": "string", "pattern": "^F-\\d{6,}$" },
+    "type": {
+      "type": "string",
+      "enum": ["false_positive", "missing_risk", "suggestion_edited", "level_disagreement"],
+      "description": "误报驳回 / 漏报补报 / 建议被修正 / 结论或等级不认可"
+    },
+    "reason_code": {
+      "type": ["string", "null"],
+      "enum": [
+        "one_time_business_arrangement", "rule_condition_too_broad", "stance_mismatch",
+        "fact_context_missed", "threshold_outdated", "other", null
+      ],
+      "description": "常见原因：单次业务安排(不回流)/规则过宽/立场不匹配/漏掉事实上下文/阈值过时/其他"
+    },
+    "reason_text": { "type": ["string", "null"], "description": "用户原话或自由说明；误报驳回必填原因（reason_code 或 reason_text 至少一个）" },
+    "corrected_text": { "type": ["string", "null"], "description": "用户给出的修正建议文本（suggestion_edited / missing_risk）" },
+    "expected_risk_level": {
+      "type": ["string", "null"],
+      "enum": ["high", "medium", "low", "info", null]
+    },
+    "clause_snippet": { "type": ["string", "null"], "description": "随反馈附带的条款片段，作为候选案例素材" },
+    "desensitized": { "type": "boolean", "default": false },
+    "generated_candidate_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true,
+      "description": "沉淀后生成的知识候选条目 ID"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["recorded", "candidate_proposed", "ingested", "dismissed"],
+      "description": "已记录 / 已生成候选待确认 / 候选已入库 / 用户明确不沉淀"
+    },
+    "conversation_ref": { "type": ["string", "null"] },
+    "created_at": { "type": "string", "format": "date-time" },
+    "created_by": { "type": ["string", "null"] }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "type": { "const": "false_positive" } } },
+      "then": {
+        "anyOf": [
+          { "required": ["reason_code"], "properties": { "reason_code": { "type": "string" } } },
+          { "required": ["reason_text"] }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "principle-item.schema.json",
+  "title": "原则条目 PrincipleItem",
+  "description": "三层知识库之原则层：企业审核立场与总纲。用于立场过滤、规则冲突裁决与规则未覆盖时的兜底参照。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "item_type", "version", "status", "content", "stance", "source", "created_at"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^P-\\d{3,}$",
+      "description": "稳定条目 ID，原则层前缀 P-，如 P-002"
+    },
+    "item_type": { "const": "principle" },
+    "version": { "type": "integer", "minimum": 1, "description": "当前生效版本号，每次修订 +1" },
+    "status": {
+      "type": "string",
+      "enum": ["candidate", "active", "suspended", "superseded"],
+      "description": "candidate 候选待确认；active 已生效可被审核引用；suspended 停用；superseded 被新版本/裁决取代"
+    },
+    "name": { "type": ["string", "null"], "description": "可选短名称" },
+    "content": { "type": "string", "minLength": 1, "description": "原则表述原文（确认后的正式文本）" },
+    "stance": {
+      "type": "string",
+      "enum": ["party_a", "party_b", "both"],
+      "description": "适用立场：甲方 / 乙方 / 双方通用"
+    },
+    "priority": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100,
+      "description": "冲突裁决参考优先级，数值越大越优先；仅作系统推荐，不替用户裁决"
+    },
+    "is_redline": { "type": "boolean", "default": false, "description": "是否红线：命中即高风险并进总体结论清单" },
+    "contract_types": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/contractType" },
+      "uniqueItems": true,
+      "description": "空数组或省略表示不限合同类型"
+    },
+    "tags": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["material_id"],
+      "properties": {
+        "material_id": { "type": "string", "pattern": "^M-\\d{3,}$" },
+        "locator": { "type": ["string", "null"], "description": "章节定位，如 第1.3节" },
+        "quote": { "type": ["string", "null"], "description": "来源原文摘录" }
+      }
+    },
+    "change_note": { "type": ["string", "null"], "description": "本版本变更说明" },
+    "supersedes_version": { "type": ["integer", "null"], "description": "本版本取代的上一版本号" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "created_by": { "type": ["string", "null"] },
+    "confirmed_at": { "type": ["string", "null"], "format": "date-time" },
+    "confirmed_by": { "type": ["string", "null"] }
+  },
+  "$defs": {
+    "contractType": {
+      "type": "string",
+      "enum": ["sales", "procurement", "service", "lease", "loan", "employment", "nda", "general", "other"],
+      "description": "合同类型标准代码；扩展新类型需同步升级本 Schema"
+    }
+  }
+}
